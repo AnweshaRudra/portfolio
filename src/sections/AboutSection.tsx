@@ -62,15 +62,24 @@ export function AboutSection() {
         title={PROFILE_DATA.ownerName}
         badge={<WaxSealBadge label="CSE Undergraduate" tone="crimson" />}
       >
-        <p className="flex items-center gap-1.5 text-xs font-medium text-[#524234]">
-          <MapPin className="h-3.5 w-3.5 text-[#741F20]" />
-          <span>{PROFILE_DATA.location}</span>
-        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <img
+            src="/sovereign-portrait.jpg"
+            alt="Anwesha Rudra — Royal Sovereign Portrait"
+            className="h-20 w-16 shrink-0 rounded border border-[#B18A45]/60 object-cover object-top shadow-md"
+          />
+          <div className="flex-1 min-w-[200px]">
+            <p className="flex items-center gap-1.5 text-xs font-medium text-[#524234]">
+              <MapPin className="h-3.5 w-3.5 text-[#741F20]" />
+              <span>{PROFILE_DATA.location}</span>
+            </p>
 
-        <blockquote className="mt-4 flex gap-2.5 border-l-2 border-[#B18A45] pl-3 font-editorial text-lg italic text-[#241B14]">
-          <Quote className="mt-1 h-4 w-4 shrink-0 text-[#B18A45]" />
-          <span>“{PROFILE_DATA.quote}”</span>
-        </blockquote>
+            <blockquote className="mt-2.5 flex gap-2 border-l-2 border-[#B18A45] pl-3 font-editorial text-base italic text-[#241B14] sm:text-lg">
+              <Quote className="mt-1 h-4 w-4 shrink-0 text-[#B18A45]" />
+              <span>“{PROFILE_DATA.quote}”</span>
+            </blockquote>
+          </div>
+        </div>
 
         <p className="mt-4 text-sm leading-relaxed text-[#241B14]/90">{PROFILE_DATA.summary}</p>
 

@@ -1,11 +1,13 @@
 import { Sparkles, useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { Suspense, useEffect, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useRealm } from '../context/realmContextCore'
 import { useViewport } from '../hooks/useViewport'
+import { loadSovereignCutoutTexture } from '../utils/portraitCutout'
 
 const THRONE_MODEL_PATH = '/models/sovereign-throne.glb'
+const SOVEREIGN_PORTRAIT_PATH = '/sovereign-portrait.jpg'
 
 const PILLAR_X_POSITIONS = [-4.4, 4.4] as const
 const PILLAR_Z_POSITIONS_DESKTOP = [-4.8, -1.8, 1.2, 4.2] as const
@@ -37,6 +39,51 @@ function ThroneFallbackSilhouette() {
         <meshStandardMaterial color="#2a2420" roughness={0.7} metalness={0.5} />
       </mesh>
     </group>
+  )
+}
+
+function SeatedSovereignFigure() {
+  const [portraitTexture, setPortraitTexture] = useState<THREE.CanvasTexture | null>(null)
+
+  useEffect(() => {
+    let active = true
+    let createdTex: THREE.CanvasTexture | null = null
+
+    loadSovereignCutoutTexture(SOVEREIGN_PORTRAIT_PATH)
+      .then((tex) => {
+        if (!active) {
+          tex.dispose()
+          return
+        }
+        createdTex = tex
+        setPortraitTexture(tex)
+      })
+      .catch(() => {
+        // Gracefully fall back to empty throne if portrait fails to load
+      })
+
+    return () => {
+      active = false
+      createdTex?.dispose()
+    }
+  }, [])
+
+  if (!portraitTexture) return null
+
+  return (
+    <mesh position={[0, 2.02, -2.72]} castShadow={false}>
+      <planeGeometry args={[1.65, 2.2]} />
+      <meshStandardMaterial
+        map={portraitTexture}
+        transparent
+        alphaTest={0.06}
+        roughness={0.72}
+        metalness={0.05}
+        emissive="#2b1e12"
+        emissiveIntensity={0.28}
+        side={THREE.DoubleSide}
+      />
+    </mesh>
   )
 }
 
@@ -207,10 +254,11 @@ export function ThroneIntroScene() {
         </group>
       ))}
 
-      {/* Custom Sculpted Sovereign Throne GLB */}
+      {/* Custom Sculpted Sovereign Throne GLB + Seated Sovereign Portrait */}
       <Suspense fallback={<ThroneFallbackSilhouette />}>
         <SovereignThroneModel castShadows={!isMobile} />
       </Suspense>
+      <SeatedSovereignFigure />
 
       {/* Animated Brazier Flame Cones */}
       <mesh ref={leftFlameRef} position={[-1.95, 1.52, -2.1]}>
