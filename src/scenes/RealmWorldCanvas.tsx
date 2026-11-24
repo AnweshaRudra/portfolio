@@ -206,7 +206,7 @@ export function RealmWorldCanvas() {
             gl={{ antialias: !isMobile, powerPreference: 'high-performance' }}
           >
             <color attach="background" args={['#171411']} />
-            <fog attach="fog" args={['#171411', 15, 36]} />
+            <fog attach="fog" args={['#171411', scene === 'map' ? 22 : 15, scene === 'map' ? 48 : 36]} />
             <CameraRig isMobile={isMobile} />
             {scene === 'intro' ? <ThroneIntroScene /> : <KingdomMapScene />}
           </Canvas>

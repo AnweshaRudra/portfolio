@@ -90,6 +90,29 @@
   background: rgba(177, 138, 69, 0.72);
 }
 
+@keyframes winterfell-fall {
+  0% {
+    transform: translateY(-8px) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(78px) translateX(12px);
+    opacity: 0;
+  }
+}
+
+.winterfell-flake {
+  animation-name: winterfell-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

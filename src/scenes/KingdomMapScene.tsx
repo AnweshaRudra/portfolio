@@ -129,15 +129,15 @@ export function KingdomMapScene() {
 
       {/* Falling Snow over Winterfell & The Wall */}
       <SnowfallSystem
-        center={[-4.6, 0.3, -3.4]}
-        spread={[4.8, 3.6, 4.4]}
-        count={isMobile ? 45 : 95}
+        center={[-4.6, 0.35, -3.4]}
+        spread={[5.6, 4.4, 5.2]}
+        count={isMobile ? 90 : 180}
         reducedMotion={reducedMotion}
       />
       <SnowfallSystem
         center={[0.2, 0.5, -5.0]}
-        spread={[5.6, 3.4, 3.0]}
-        count={isMobile ? 35 : 75}
+        spread={[6.4, 4.2, 3.8]}
+        count={isMobile ? 75 : 150}
         reducedMotion={reducedMotion}
       />
 

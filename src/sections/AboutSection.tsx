@@ -4,14 +4,44 @@ import { WaxSealBadge } from '../components/ui/WaxSealBadge'
 import { useRealm } from '../context/realmContextCore'
 import { PROFILE_DATA } from '../data/profile'
 
+const UI_SNOWFLAKES = [
+  { left: '6%', delay: '0s', duration: '4.2s', size: 10 },
+  { left: '16%', delay: '1.1s', duration: '5.1s', size: 12 },
+  { left: '28%', delay: '0.4s', duration: '3.9s', size: 9 },
+  { left: '41%', delay: '1.8s', duration: '4.7s', size: 11 },
+  { left: '56%', delay: '0.7s', duration: '4.4s', size: 13 },
+  { left: '68%', delay: '2.1s', duration: '5.3s', size: 10 },
+  { left: '81%', delay: '0.2s', duration: '4.0s', size: 12 },
+  { left: '92%', delay: '1.4s', duration: '4.8s', size: 10 },
+]
+
 export function AboutSection() {
   const { reducedMotion } = useRealm()
 
   return (
     <div className="space-y-6">
-      {/* Winterfell Northern Motto Banner with subtle animated snowfall accent */}
-      <div className="relative overflow-hidden rounded-md border border-[#9fb3c2]/35 bg-gradient-to-r from-[#1c2329] via-[#211c17] to-[#1c2329] px-4 py-3 text-center">
-        <div className="flex items-center justify-center gap-2 font-display text-xs font-semibold tracking-[0.26em] uppercase text-[#cfdbe3]">
+      {/* Winterfell Northern Motto Banner with animated falling snowfall */}
+      <div className="relative overflow-hidden rounded-md border border-[#9fb3c2]/40 bg-gradient-to-r from-[#192128] via-[#211c17] to-[#192128] px-4 py-4 text-center">
+        {!reducedMotion && (
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            {UI_SNOWFLAKES.map((flake, idx) => (
+              <span
+                key={idx}
+                className="winterfell-flake absolute -top-4 text-[#cfe6f5]/75"
+                style={{
+                  left: flake.left,
+                  animationDelay: flake.delay,
+                  animationDuration: flake.duration,
+                  fontSize: `${flake.size}px`,
+                }}
+              >
+                ❄
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="relative z-10 flex items-center justify-center gap-2 font-display text-xs font-semibold tracking-[0.26em] uppercase text-[#d8e8f2]">
           <Snowflake
             className={`h-3.5 w-3.5 text-[#9fd3eb] ${reducedMotion ? '' : 'animate-spin'}`}
             style={{ animationDuration: '9s' }}
@@ -22,7 +52,7 @@ export function AboutSection() {
             style={{ animationDuration: '9s' }}
           />
         </div>
-        <p className="mt-1 font-editorial text-xs italic text-[#9fb3c2]">
+        <p className="relative z-10 mt-1 font-editorial text-xs italic text-[#b2c7d6]">
           Northern Keep of Discipline, Foundations &amp; Continuous Learning
         </p>
       </div>
