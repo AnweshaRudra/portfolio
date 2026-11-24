@@ -4,10 +4,11 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useRealm } from '../context/realmContextCore'
 import { useViewport } from '../hooks/useViewport'
+import { assetUrl } from '../utils/assetUrl'
 import { createEllipticalVignetteAlphaMap } from '../utils/portraitCutout'
 
-const THRONE_MODEL_PATH = '/models/sovereign-throne.glb'
-const SOVEREIGN_PORTRAIT_PATH = '/sovereign-portrait.jpg'
+const THRONE_MODEL_PATH = assetUrl('models/sovereign-throne.glb')
+const SOVEREIGN_PORTRAIT_PATH = assetUrl('sovereign-portrait.jpg')
 
 const PILLAR_X_POSITIONS = [-4.4, 4.4] as const
 const PILLAR_Z_POSITIONS_DESKTOP = [-4.8, -1.8, 1.2, 4.2] as const

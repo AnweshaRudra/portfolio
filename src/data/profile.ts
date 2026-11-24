@@ -1,4 +1,5 @@
 import type { ProfileData } from './types'
+import { assetUrl } from '../utils/assetUrl'
 
 export const PROFILE_DATA: ProfileData = {
   realmTitle: 'THE REALM OF ANWESHA',
@@ -18,7 +19,7 @@ export const PROFILE_DATA: ProfileData = {
   linkedinPlaceholder: 'linkedin.com/in/anwesha-rudra-00720a321',
   linkedinUrl: 'https://www.linkedin.com/in/anwesha-rudra-00720a321/',
   resumePlaceholder: 'Anwesha_Rudra_Resume.pdf',
-  resumeUrl: '/Anwesha_Rudra_Resume.pdf',
+  resumeUrl: assetUrl('Anwesha_Rudra_Resume.pdf'),
   education: [
     {
       id: 'icfai-btech',

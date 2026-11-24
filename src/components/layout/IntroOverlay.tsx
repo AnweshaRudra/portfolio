@@ -4,6 +4,7 @@ import { ChevronRight, ScrollText, SkipForward } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useRealm } from '../../context/realmContextCore'
 import { PROFILE_DATA } from '../../data/profile'
+import { assetUrl } from '../../utils/assetUrl'
 import { RealmButton } from '../ui/RealmButton'
 
 gsap.registerPlugin(useGSAP)
@@ -103,7 +104,7 @@ export function IntroOverlay() {
           className="flex flex-col items-center gap-3 md:flex-row md:items-center"
         >
           <img
-            src="/sovereign-portrait.jpg"
+            src={assetUrl('sovereign-portrait.jpg')}
             alt="Anwesha Rudra — Sovereign Portrait"
             className="h-20 w-16 shrink-0 rounded border border-[#CFA861]/75 object-cover object-top shadow-lg"
           />

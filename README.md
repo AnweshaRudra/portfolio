@@ -2,6 +2,9 @@
 
 **A Chronicle of Code, Creativity & Conquest** — an interactive, medieval-fantasy 3D developer portfolio for **Anwesha Rudra**, crafted with React, TypeScript, Vite, Three.js, React Three Fiber, Drei, GSAP, Motion, and Tailwind CSS.
 
+> **Live Website (GitHub Pages):** https://anwesharudra.github.io/portfolio/  
+> **GitHub Repository:** https://github.com/AnweshaRudra/portfolio
+
 > *"Part problem-solver, part builder, full-time learner — always compiling something new."*
 
 ---

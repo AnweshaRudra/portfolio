@@ -3,6 +3,7 @@ import { ManuscriptCard } from '../components/ui/ManuscriptCard'
 import { WaxSealBadge } from '../components/ui/WaxSealBadge'
 import { useRealm } from '../context/realmContextCore'
 import { PROFILE_DATA } from '../data/profile'
+import { assetUrl } from '../utils/assetUrl'
 
 const UI_SNOWFLAKES = [
   { left: '6%', delay: '0s', duration: '4.2s', size: 10 },
@@ -64,7 +65,7 @@ export function AboutSection() {
       >
         <div className="flex flex-wrap items-center gap-4">
           <img
-            src="/sovereign-portrait.jpg"
+            src={assetUrl('sovereign-portrait.jpg')}
             alt="Anwesha Rudra — Royal Sovereign Portrait"
             className="h-20 w-16 shrink-0 rounded border border-[#B18A45]/60 object-cover object-top shadow-md"
           />
