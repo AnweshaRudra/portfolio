@@ -1,11 +1,32 @@
-import { GraduationCap, MapPin, Quote } from 'lucide-react'
+import { GraduationCap, MapPin, Quote, Snowflake } from 'lucide-react'
 import { ManuscriptCard } from '../components/ui/ManuscriptCard'
 import { WaxSealBadge } from '../components/ui/WaxSealBadge'
+import { useRealm } from '../context/realmContextCore'
 import { PROFILE_DATA } from '../data/profile'
 
 export function AboutSection() {
+  const { reducedMotion } = useRealm()
+
   return (
     <div className="space-y-6">
+      {/* Winterfell Northern Motto Banner with subtle animated snowfall accent */}
+      <div className="relative overflow-hidden rounded-md border border-[#9fb3c2]/35 bg-gradient-to-r from-[#1c2329] via-[#211c17] to-[#1c2329] px-4 py-3 text-center">
+        <div className="flex items-center justify-center gap-2 font-display text-xs font-semibold tracking-[0.26em] uppercase text-[#cfdbe3]">
+          <Snowflake
+            className={`h-3.5 w-3.5 text-[#9fd3eb] ${reducedMotion ? '' : 'animate-spin'}`}
+            style={{ animationDuration: '9s' }}
+          />
+          <span>Winter Is Coming</span>
+          <Snowflake
+            className={`h-3.5 w-3.5 text-[#9fd3eb] ${reducedMotion ? '' : 'animate-spin'}`}
+            style={{ animationDuration: '9s' }}
+          />
+        </div>
+        <p className="mt-1 font-editorial text-xs italic text-[#9fb3c2]">
+          Northern Keep of Discipline, Foundations &amp; Continuous Learning
+        </p>
+      </div>
+
       <ManuscriptCard
         eyebrow="Royal Biography"
         title={PROFILE_DATA.ownerName}

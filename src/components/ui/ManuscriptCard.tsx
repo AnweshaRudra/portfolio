@@ -1,4 +1,6 @@
+import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
+import { useRealm } from '../../context/realmContextCore'
 
 interface ManuscriptCardProps {
   eyebrow?: string
@@ -15,8 +17,15 @@ export function ManuscriptCard({
   children,
   className = '',
 }: ManuscriptCardProps) {
+  const { reducedMotion } = useRealm()
+
   return (
-    <section className={`surface-parchment rounded-md p-5 sm:p-6 ${className}`}>
+    <motion.section
+      initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: reducedMotion ? 0.01 : 0.28, ease: 'easeOut' }}
+      className={`surface-parchment rounded-md p-5 sm:p-6 ${className}`}
+    >
       {(eyebrow || title || badge) && (
         <header className="mb-4 flex flex-wrap items-start justify-between gap-2 border-b border-[#524234]/20 pb-3">
           <div>
@@ -35,6 +44,6 @@ export function ManuscriptCard({
         </header>
       )}
       {children}
-    </section>
+    </motion.section>
   )
 }

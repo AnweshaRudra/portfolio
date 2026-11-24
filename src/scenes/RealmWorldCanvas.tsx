@@ -3,7 +3,11 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
-import { animateCameraToPose, INTRO_CAMERA_POSE } from '../animations/cameraTransitions'
+import {
+  animateCameraToPose,
+  INTRO_CAMERA_POSE_DESKTOP,
+  INTRO_CAMERA_POSE_MOBILE,
+} from '../animations/cameraTransitions'
 import { useRealm } from '../context/realmContextCore'
 import { MAP_OVERVIEW_CAMERA } from '../data/destinations'
 import { useViewport } from '../hooks/useViewport'
@@ -25,7 +29,8 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
     markSceneReady,
   } = useRealm()
 
-  const lookAtTarget = useRef(new THREE.Vector3(...INTRO_CAMERA_POSE.target))
+  const introPose = isMobile ? INTRO_CAMERA_POSE_MOBILE : INTRO_CAMERA_POSE_DESKTOP
+  const lookAtTarget = useRef(new THREE.Vector3(...introPose.target))
   const controlsRef = useRef<OrbitControlsImpl | null>(null)
   const introOffsetRef = useRef(0)
   const lastCompassDegRef = useRef(0)
@@ -40,7 +45,7 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
       const tweens = animateCameraToPose(
         camera,
         lookAtTarget.current,
-        INTRO_CAMERA_POSE,
+        introPose,
         reducedMotion,
         0.9,
         invalidate,
@@ -79,7 +84,16 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
     return () => {
       tweens.forEach((t) => t.kill())
     }
-  }, [camera, invalidate, isMobile, mapResetNonce, reducedMotion, scene, selectedDestination])
+  }, [
+    camera,
+    introPose,
+    invalidate,
+    isMobile,
+    mapResetNonce,
+    reducedMotion,
+    scene,
+    selectedDestination,
+  ])
 
   // Handle explicit +/- zoom buttons from Map HUD
   useEffect(() => {
@@ -107,11 +121,18 @@ function CameraRig({ isMobile }: { isMobile: boolean }) {
     )
   }, [camera, invalidate, mapZoomCommand, reducedMotion, scene, selectedDestination])
 
-  // Gentle restrained intro push-in & live compass azimuth sync
+  // Gentle cinematic camera breathing & push-in during intro + live compass azimuth sync
   useFrame((state, delta) => {
-    if (scene === 'intro' && !reducedMotion && introOffsetRef.current < 1.2) {
-      introOffsetRef.current = Math.min(1.2, introOffsetRef.current + delta * 0.16)
-      state.camera.position.z = INTRO_CAMERA_POSE.position[2] - introOffsetRef.current
+    if (scene === 'intro' && !reducedMotion) {
+      if (introOffsetRef.current < 1.1) {
+        introOffsetRef.current = Math.min(1.1, introOffsetRef.current + delta * 0.14)
+      }
+      const t = state.clock.getElapsedTime()
+      const swayX = Math.sin(t * 0.35) * 0.35
+      const swayY = Math.cos(t * 0.28) * 0.08
+      state.camera.position.x = introPose.position[0] + swayX
+      state.camera.position.y = introPose.position[1] + swayY
+      state.camera.position.z = introPose.position[2] - introOffsetRef.current
       state.camera.lookAt(lookAtTarget.current)
     }
 
@@ -159,6 +180,7 @@ export function RealmWorldCanvas() {
   }
 
   const dpr: [number, number] = isMobile ? [1, 1.35] : [1, 2]
+  const initialPose = isMobile ? INTRO_CAMERA_POSE_MOBILE : INTRO_CAMERA_POSE_DESKTOP
 
   return (
     <SceneErrorBoundary
@@ -180,7 +202,7 @@ export function RealmWorldCanvas() {
             frameloop={reducedMotion ? 'demand' : 'always'}
             shadows={!isMobile}
             dpr={dpr}
-            camera={{ position: INTRO_CAMERA_POSE.position, fov: 46, near: 0.1, far: 100 }}
+            camera={{ position: initialPose.position, fov: 46, near: 0.1, far: 100 }}
             gl={{ antialias: !isMobile, powerPreference: 'high-performance' }}
           >
             <color attach="background" args={['#171411']} />

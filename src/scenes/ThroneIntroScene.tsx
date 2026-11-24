@@ -47,6 +47,8 @@ export function ThroneIntroScene() {
 
   const leftBrazierLightRef = useRef<THREE.PointLight>(null)
   const rightBrazierLightRef = useRef<THREE.PointLight>(null)
+  const leftFlameRef = useRef<THREE.Mesh>(null)
+  const rightFlameRef = useRef<THREE.Mesh>(null)
   const crestSpotRef = useRef<THREE.PointLight>(null)
   const leftBannerRef = useRef<THREE.Mesh>(null)
   const rightBannerRef = useRef<THREE.Mesh>(null)
@@ -59,20 +61,34 @@ export function ThroneIntroScene() {
     if (reducedMotion) return
     const t = clock.getElapsedTime()
     if (leftBrazierLightRef.current) {
-      leftBrazierLightRef.current.intensity = 11 + Math.sin(t * 3.1) * 1.2 + Math.cos(t * 6.4) * 0.5
+      leftBrazierLightRef.current.intensity = 13 + Math.sin(t * 3.1) * 1.4 + Math.cos(t * 6.4) * 0.6
     }
     if (rightBrazierLightRef.current) {
       rightBrazierLightRef.current.intensity =
-        11 + Math.cos(t * 2.9 + 1.1) * 1.2 + Math.sin(t * 5.7) * 0.5
+        13 + Math.cos(t * 2.9 + 1.1) * 1.4 + Math.sin(t * 5.7) * 0.6
+    }
+    if (leftFlameRef.current) {
+      leftFlameRef.current.scale.set(
+        1 + Math.sin(t * 7.2) * 0.09,
+        1 + Math.cos(t * 9.5) * 0.16,
+        1 + Math.sin(t * 6.4) * 0.09,
+      )
+    }
+    if (rightFlameRef.current) {
+      rightFlameRef.current.scale.set(
+        1 + Math.cos(t * 6.8) * 0.09,
+        1 + Math.sin(t * 9.1) * 0.16,
+        1 + Math.cos(t * 6.1) * 0.09,
+      )
     }
     if (crestSpotRef.current) {
-      crestSpotRef.current.intensity = 10 + Math.sin(t * 1.4) * 0.6
+      crestSpotRef.current.intensity = 12 + Math.sin(t * 1.4) * 0.7
     }
     if (leftBannerRef.current) {
-      leftBannerRef.current.rotation.x = Math.sin(t * 1.1) * 0.035
+      leftBannerRef.current.rotation.x = Math.sin(t * 1.1) * 0.04
     }
     if (rightBannerRef.current) {
-      rightBannerRef.current.rotation.x = Math.cos(t * 1.05 + 0.6) * 0.035
+      rightBannerRef.current.rotation.x = Math.cos(t * 1.05 + 0.6) * 0.04
     }
   })
 
@@ -195,6 +211,16 @@ export function ThroneIntroScene() {
       <Suspense fallback={<ThroneFallbackSilhouette />}>
         <SovereignThroneModel castShadows={!isMobile} />
       </Suspense>
+
+      {/* Animated Brazier Flame Cones */}
+      <mesh ref={leftFlameRef} position={[-1.95, 1.52, -2.1]}>
+        <coneGeometry args={[0.16, 0.42, 7]} />
+        <meshBasicMaterial color="#e88a31" transparent opacity={0.85} />
+      </mesh>
+      <mesh ref={rightFlameRef} position={[1.95, 1.52, -2.1]}>
+        <coneGeometry args={[0.16, 0.42, 7]} />
+        <meshBasicMaterial color="#e88a31" transparent opacity={0.85} />
+      </mesh>
 
       {/* Fluted Stone Colonnade Pillars & Overhead Vault Beams */}
       {PILLAR_X_POSITIONS.map((x) =>

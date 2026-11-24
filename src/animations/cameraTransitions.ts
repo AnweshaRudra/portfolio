@@ -6,10 +6,17 @@ export interface CameraPose {
   target: [number, number, number]
 }
 
-export const INTRO_CAMERA_POSE: CameraPose = {
-  position: [0, 2.55, 8.6],
-  target: [0, 1.7, -2.85],
+export const INTRO_CAMERA_POSE_DESKTOP: CameraPose = {
+  position: [-1.2, 2.45, 8.9],
+  target: [-1.35, 1.68, -2.85],
 }
+
+export const INTRO_CAMERA_POSE_MOBILE: CameraPose = {
+  position: [0, 2.35, 10.4],
+  target: [0, 0.65, -2.85],
+}
+
+export const INTRO_CAMERA_POSE = INTRO_CAMERA_POSE_DESKTOP
 
 export function animateCameraToPose(
   camera: THREE.Camera,

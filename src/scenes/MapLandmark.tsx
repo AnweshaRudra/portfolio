@@ -183,7 +183,13 @@ function DragonstoneVolcano({ reducedMotion }: { reducedMotion: boolean }) {
   )
 }
 
-function TheWallFortress() {
+function TheWallFortress({ reducedMotion }: { reducedMotion: boolean }) {
+  const sentinelRef = useRef<THREE.Group>(null)
+  useFrame(({ clock }) => {
+    if (reducedMotion || !sentinelRef.current) return
+    sentinelRef.current.position.y = 1.18 + Math.sin(clock.getElapsedTime() * 1.6) * 0.03
+  })
+
   return (
     <group>
       {/* Massive glacial-slate barrier */}
@@ -203,11 +209,47 @@ function TheWallFortress() {
         <boxGeometry args={[0.62, 1.15, 0.36]} />
         <meshStandardMaterial color="#44484d" roughness={0.82} />
       </mesh>
-      {/* Signal brazier flame along top */}
-      <mesh position={[0, 1.24, 0.2]}>
-        <sphereGeometry args={[0.11, 8, 8]} />
-        <meshStandardMaterial color="#e08938" emissive="#d4681c" emissiveIntensity={1.2} />
-      </mesh>
+      {/* Frost Sovereign / Dead King Guardian atop The Wall */}
+      <group ref={sentinelRef} position={[0, 1.18, 0.22]}>
+        {/* Frost-cloaked torso */}
+        <mesh position={[0, 0.24, 0]} castShadow>
+          <coneGeometry args={[0.17, 0.5, 6]} />
+          <meshStandardMaterial color="#1f2c36" roughness={0.7} metalness={0.28} />
+        </mesh>
+        {/* Head & Jagged Ice Crown */}
+        <mesh position={[0, 0.54, 0]} castShadow>
+          <sphereGeometry args={[0.085, 8, 8]} />
+          <meshStandardMaterial color="#a6c8db" roughness={0.4} />
+        </mesh>
+        {[-0.05, 0, 0.05].map((cx, idx) => (
+          <mesh key={idx} position={[cx, 0.65, 0]} rotation={[0, 0, -cx * 3]}>
+            <coneGeometry args={[0.022, 0.1, 4]} />
+            <meshStandardMaterial
+              color="#bce6ff"
+              emissive="#4da6d9"
+              emissiveIntensity={0.65}
+            />
+          </mesh>
+        ))}
+        {/* Ice-blue glowing eyes */}
+        <mesh position={[0.028, 0.55, 0.075]}>
+          <sphereGeometry args={[0.015, 6, 6]} />
+          <meshStandardMaterial color="#7fd8ff" emissive="#59c8ff" emissiveIntensity={2.0} />
+        </mesh>
+        <mesh position={[-0.028, 0.55, 0.075]}>
+          <sphereGeometry args={[0.015, 6, 6]} />
+          <meshStandardMaterial color="#7fd8ff" emissive="#59c8ff" emissiveIntensity={2.0} />
+        </mesh>
+        {/* Frost spear */}
+        <mesh position={[0.18, 0.32, 0.04]} rotation={[0, 0, -0.08]}>
+          <cylinderGeometry args={[0.014, 0.014, 0.78, 6]} />
+          <meshStandardMaterial
+            color="#9ee0ff"
+            emissive="#45a8db"
+            emissiveIntensity={0.85}
+          />
+        </mesh>
+      </group>
     </group>
   )
 }
@@ -331,7 +373,7 @@ export function MapLandmark({
       )}
       {destination.id === 'kings-landing' && <KingsLandingCapital stoneColor={stoneColor} />}
       {destination.id === 'dragonstone' && <DragonstoneVolcano reducedMotion={reducedMotion} />}
-      {destination.id === 'the-wall' && <TheWallFortress />}
+      {destination.id === 'the-wall' && <TheWallFortress reducedMotion={reducedMotion} />}
       {destination.id === 'ravens-keep' && (
         <RavensKeepTower stoneColor={stoneColor} reducedMotion={reducedMotion} />
       )}

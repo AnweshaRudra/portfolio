@@ -74,14 +74,14 @@ export function IntroOverlay() {
   return (
     <section
       aria-label="The Sovereign Throne Introduction"
-      className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-end px-4 pb-6 sm:pb-12"
+      className="pointer-events-none fixed inset-0 z-20 flex flex-col items-center justify-end px-4 pb-4 md:items-start md:justify-center md:px-10 lg:px-16 md:pt-14"
     >
       <div
         ref={containerRef}
-        className="pointer-events-auto w-full max-w-2xl rounded-lg border border-[#B18A45]/45 bg-[#171411]/82 p-5 text-center shadow-2xl backdrop-blur-sm sm:p-7"
+        className="pointer-events-auto w-full max-w-md rounded-lg border border-[#B18A45]/45 bg-[#171411]/78 p-4 text-center shadow-2xl backdrop-blur-sm sm:p-6 md:text-left"
       >
         {!isSceneReady && (
-          <div className="mb-3 flex items-center justify-center gap-3 text-xs text-[#CFA861]">
+          <div className="mb-2.5 flex items-center justify-center gap-3 text-xs text-[#CFA861] md:justify-start">
             <span className="font-display tracking-widest uppercase">
               Forging the Throne Room…
             </span>
@@ -100,7 +100,7 @@ export function IntroOverlay() {
         <p
           data-intro-reveal=""
           data-intro-eyebrow=""
-          className="font-display text-[11px] tracking-[0.26em] uppercase text-[#B18A45] sm:text-xs"
+          className="font-display text-[10px] tracking-[0.24em] uppercase text-[#B18A45] sm:text-xs"
         >
           {PROFILE_DATA.ownerName} • {PROFILE_DATA.location}
         </p>
@@ -108,7 +108,7 @@ export function IntroOverlay() {
         <h1
           data-intro-reveal=""
           data-intro-title=""
-          className="mt-2 font-display text-2xl font-bold tracking-[0.12em] uppercase text-[#E5D5B9] sm:text-4xl"
+          className="mt-1.5 font-display text-xl font-bold tracking-[0.11em] uppercase text-[#E5D5B9] sm:text-3xl"
         >
           {PROFILE_DATA.realmTitle}
         </h1>
@@ -116,7 +116,7 @@ export function IntroOverlay() {
         <p
           data-intro-reveal=""
           data-intro-tagline=""
-          className="mt-1.5 font-editorial text-lg italic text-[#CFA861] sm:text-xl"
+          className="mt-1 font-editorial text-base italic text-[#CFA861] sm:text-lg"
         >
           {PROFILE_DATA.tagline}
         </p>
@@ -124,39 +124,46 @@ export function IntroOverlay() {
         <div
           data-intro-reveal=""
           data-intro-divider=""
-          className="ornate-divider mx-auto my-3.5 max-w-xs"
+          className="ornate-divider mx-auto my-3 max-w-xs md:mx-0"
         />
 
         <p
           data-intro-reveal=""
           data-intro-body=""
-          className="mx-auto max-w-xl text-xs leading-relaxed text-[#E5D5B9]/90 sm:text-sm"
+          className="hidden text-xs leading-relaxed text-[#E5D5B9]/90 sm:block sm:text-sm"
         >
           {PROFILE_DATA.summary}
+        </p>
+        <p
+          data-intro-reveal=""
+          data-intro-body=""
+          className="text-xs leading-relaxed text-[#E5D5B9]/90 sm:hidden"
+        >
+          {PROFILE_DATA.targetRoles}
         </p>
 
         <div
           data-intro-reveal=""
           data-intro-actions=""
-          className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3"
+          className="mt-4 flex flex-wrap items-center justify-center gap-2 md:justify-start"
         >
           <RealmButton
             variant="primary"
             onClick={enterRealm}
-            className="px-6 py-2.5 font-display tracking-[0.14em] uppercase"
+            className="px-5 py-2 font-display text-xs tracking-[0.14em] uppercase sm:text-sm"
           >
             <span>Enter the Realm</span>
             <ChevronRight className="h-4 w-4 text-[#CFA861]" />
           </RealmButton>
 
-          <RealmButton variant="secondary" onClick={skipIntro}>
-            <SkipForward className="h-4 w-4 text-[#B18A45]" />
+          <RealmButton variant="secondary" onClick={skipIntro} className="text-xs">
+            <SkipForward className="h-3.5 w-3.5 text-[#B18A45]" />
             <span>Skip Intro</span>
           </RealmButton>
 
           <RealmButton variant="ghost" onClick={openChronicle} className="text-xs">
             <ScrollText className="h-3.5 w-3.5 text-[#B18A45]" />
-            <span>Read Full Chronicle (No 3D)</span>
+            <span>Reader View</span>
           </RealmButton>
         </div>
       </div>

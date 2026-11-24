@@ -11,7 +11,9 @@ import {
   MAP_DEPTH,
   MAP_WIDTH,
 } from '../utils/kingdomGeography'
+import { KingdomDragon } from './KingdomDragon'
 import { MapLandmark } from './MapLandmark'
+import { SnowfallSystem } from './SnowfallSystem'
 
 const MOUNTAIN_PEAKS: Array<{ x: number; z: number; radius: number; height: number; snow: boolean }> = [
   { x: -5.8, z: -5.4, radius: 1.15, height: 1.9, snow: true },
@@ -121,6 +123,23 @@ export function KingdomMapScene() {
         <planeGeometry args={[MAP_WIDTH, MAP_DEPTH]} />
         <meshStandardMaterial color="#1a2630" roughness={0.34} metalness={0.32} />
       </mesh>
+
+      {/* Flying 3D Dragon soaring over King's Landing & Dragonstone */}
+      <KingdomDragon reducedMotion={reducedMotion} />
+
+      {/* Falling Snow over Winterfell & The Wall */}
+      <SnowfallSystem
+        center={[-4.6, 0.3, -3.4]}
+        spread={[4.8, 3.6, 4.4]}
+        count={isMobile ? 45 : 95}
+        reducedMotion={reducedMotion}
+      />
+      <SnowfallSystem
+        center={[0.2, 0.5, -5.0]}
+        spread={[5.6, 3.4, 3.0]}
+        count={isMobile ? 35 : 75}
+        reducedMotion={reducedMotion}
+      />
 
       {/* Atmospheric Northern Frost Motes & Warm Map Dust */}
       {!reducedMotion && (
