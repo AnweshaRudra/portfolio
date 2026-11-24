@@ -11,7 +11,8 @@ export const PROFILE_DATA: ProfileData = {
     'Computer Science and Engineering undergraduate with project experience in machine learning, data processing, business entity resolution, cybersecurity, and mobile application development. Experienced in building Python-based data workflows, integrating intelligent models with applications, and developing end-to-end solutions through collaborative hackathon projects.',
   emailPlaceholder: 'Placeholder: Provide preferred contact email address',
   phonePlaceholder: 'Placeholder: Optional mobile number if you wish to publish it',
-  githubPlaceholder: 'Placeholder: Provide GitHub profile URL',
+  githubPlaceholder: 'Verified GitHub Profile',
+  githubUrl: 'https://github.com/AnweshaRudra',
   linkedinPlaceholder: 'Placeholder: Provide LinkedIn profile URL',
   resumePlaceholder: 'Placeholder: Provide final Resume PDF file for download',
   education: [

@@ -53,8 +53,8 @@ function CameraRig() {
   // Gentle restrained push-in during intro only when not reducedMotion
   useFrame((state, delta) => {
     if (scene !== 'intro' || reducedMotion) return
-    if (introOffsetRef.current < 1.35) {
-      introOffsetRef.current = Math.min(1.35, introOffsetRef.current + delta * 0.2)
+    if (introOffsetRef.current < 1.2) {
+      introOffsetRef.current = Math.min(1.2, introOffsetRef.current + delta * 0.16)
       state.camera.position.z = INTRO_CAMERA_POSE.position[2] - introOffsetRef.current
       state.camera.lookAt(lookAtTarget.current)
     }

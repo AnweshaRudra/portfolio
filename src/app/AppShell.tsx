@@ -4,6 +4,7 @@ import { IntroOverlay } from '../components/layout/IntroOverlay'
 import { RealmHeader } from '../components/layout/RealmHeader'
 import { useRealm } from '../context/realmContextCore'
 import { DESTINATIONS } from '../data/destinations'
+import { useRealmAudioSync } from '../hooks/useRealmAudio'
 import { RealmWorldCanvas } from '../scenes/RealmWorldCanvas'
 import { AboutSection } from '../sections/AboutSection'
 import { AchievementsSection } from '../sections/AchievementsSection'
@@ -34,6 +35,7 @@ function ActiveSectionContent() {
 }
 
 export function AppShell() {
+  useRealmAudioSync()
   const { scene, hoveredId, focusedId, isPanelOpen } = useRealm()
   const previewId = hoveredId ?? focusedId
   const previewDestination = previewId

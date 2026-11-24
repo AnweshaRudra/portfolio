@@ -1,4 +1,4 @@
-import { Compass, FileText, Map, Menu, RotateCcw, X } from 'lucide-react'
+import { Code2, Compass, FileText, Map, Menu, RotateCcw, X } from 'lucide-react'
 import { useRealm } from '../../context/realmContextCore'
 import { PROFILE_DATA } from '../../data/profile'
 import { AudioToggle } from '../ui/AudioToggle'
@@ -59,6 +59,20 @@ export function RealmHeader() {
       </div>
 
       <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2">
+        {PROFILE_DATA.githubUrl && (
+          <a
+            href={PROFILE_DATA.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Anwesha Rudra on GitHub"
+            title="GitHub Profile"
+            className="inline-flex items-center gap-1.5 rounded border border-[#B18A45]/45 bg-[#171411]/85 px-2.5 py-1.5 text-xs font-medium text-[#E5D5B9] transition-colors hover:border-[#CFA861] hover:text-[#CFA861]"
+          >
+            <Code2 className="h-3.5 w-3.5 text-[#B18A45]" />
+            <span className="hidden lg:inline">GitHub</span>
+          </a>
+        )}
+
         <button
           type="button"
           onClick={handleResumeClick}

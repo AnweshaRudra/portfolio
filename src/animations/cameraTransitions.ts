@@ -7,8 +7,8 @@ export interface CameraPose {
 }
 
 export const INTRO_CAMERA_POSE: CameraPose = {
-  position: [0, 2.3, 9.2],
-  target: [0, 1.8, -2.5],
+  position: [0, 2.55, 8.6],
+  target: [0, 1.7, -2.85],
 }
 
 export function animateCameraToPose(
