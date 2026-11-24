@@ -8,7 +8,8 @@ A Chronicle of Code, Creativity & Conquest — an interactive, medieval-fantasy 
 - **Milestone 1 — Functional foundation & greybox prototype**: Complete
 - **Milestone 2 — Cinematic throne-room experience**: Complete
 - **Milestone 3 — Kingdom map and cinematic navigation**: Complete
-- **Milestone 4 — Portfolio content and case studies**: Pending review
+- **Milestone 4 — Portfolio content and case studies**: Complete
+- **Milestone 5 — Atmosphere, sound and Easter eggs**: Pending review
 
 ## Setup & Scripts
 

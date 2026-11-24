@@ -1,5 +1,6 @@
-import { Briefcase, Code2, Feather, FileText, Mail, Send } from 'lucide-react'
+import { Briefcase, Code2, ExternalLink, Feather, FileText, Mail, Send } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
+import { ManuscriptCard } from '../components/ui/ManuscriptCard'
 import { PROFILE_DATA } from '../data/profile'
 
 export function ContactSection() {
@@ -21,19 +22,14 @@ export function ContactSection() {
 
   return (
     <div className="space-y-5">
-      {/* Verified Professional Channels & Placeholders */}
-      <div className="surface-parchment rounded-md p-5">
-        <div className="flex items-center gap-2 border-b border-[#524234]/20 pb-3">
-          <Feather className="h-4 w-4 text-[#741F20]" />
-          <h3 className="font-display text-base font-bold text-[#241B14]">
-            Direct Channels &amp; Credentials
-          </h3>
-        </div>
-
-        <p className="mt-3 text-xs leading-relaxed text-[#524234]">
-          The resume header mentions Gmail, Mobile, LinkedIn, GitHub, and Resume download, but the
-          raw text did not include the destination URLs or address. Each channel below uses a
-          clearly labelled placeholder until verified links are provided.
+      <ManuscriptCard
+        eyebrow="Correspondence & Credentials"
+        title="Direct Channels"
+        badge={<Feather className="h-4 w-4 text-[#741F20]" />}
+      >
+        <p className="text-xs leading-relaxed text-[#524234]">
+          Verified external links are clickable below. Email, LinkedIn, and downloadable Resume PDF
+          remain clearly labelled placeholders until provided.
         </p>
 
         <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
@@ -60,9 +56,10 @@ export function ContactSection() {
                   href={PROFILE_DATA.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline"
+                  className="inline-flex items-center gap-1 font-medium text-[#241B14] underline"
                 >
-                  Download Resume PDF
+                  <span>Download Resume PDF</span>
+                  <ExternalLink className="h-3 w-3" />
                 </a>
               ) : (
                 <p className="text-[#741F20]">{PROFILE_DATA.resumePlaceholder}</p>
@@ -79,9 +76,10 @@ export function ContactSection() {
                   href={PROFILE_DATA.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline"
+                  className="inline-flex items-center gap-1 font-medium text-[#241B14] underline hover:text-[#741F20]"
                 >
-                  Open GitHub Profile
+                  <span>github.com/AnweshaRudra</span>
+                  <ExternalLink className="h-3 w-3" />
                 </a>
               ) : (
                 <p className="text-[#741F20]">{PROFILE_DATA.githubPlaceholder}</p>
@@ -98,9 +96,10 @@ export function ContactSection() {
                   href={PROFILE_DATA.linkedinUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline"
+                  className="inline-flex items-center gap-1 font-medium text-[#241B14] underline"
                 >
-                  Open LinkedIn Profile
+                  <span>Open LinkedIn Profile</span>
+                  <ExternalLink className="h-3 w-3" />
                 </a>
               ) : (
                 <p className="text-[#741F20]">{PROFILE_DATA.linkedinPlaceholder}</p>
@@ -108,12 +107,11 @@ export function ContactSection() {
             </div>
           </div>
         </div>
-      </div>
+      </ManuscriptCard>
 
-      {/* Send a Raven Contact Form */}
       <form
         onSubmit={handleSubmit}
-        className="rounded-md border border-[#B18A45]/35 bg-[#171411]/80 p-5 space-y-4"
+        className="space-y-4 rounded-md border border-[#B18A45]/35 bg-[#171411]/80 p-5"
       >
         <div>
           <h3 className="font-display text-sm font-semibold tracking-[0.14em] uppercase text-[#CFA861]">

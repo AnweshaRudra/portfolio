@@ -6,7 +6,7 @@ export type DestinationId =
   | 'the-wall'
   | 'ravens-keep'
 
-export type SceneMode = 'intro' | 'map'
+export type SceneMode = 'intro' | 'map' | 'chronicle'
 
 export interface DestinationInfo {
   id: DestinationId
@@ -30,6 +30,7 @@ export interface ProjectItem {
   id: string
   title: string
   subtitle: string
+  domain: 'AI & ML' | 'Mobile & API'
   status: 'Hackathon Project' | 'Prototype' | 'Research / Challenge' | 'Academic Project'
   featured?: boolean
   summary: string

@@ -3,12 +3,14 @@ import { DestinationNavBar } from '../components/layout/DestinationNavBar'
 import { IntroOverlay } from '../components/layout/IntroOverlay'
 import { MapHudControls } from '../components/layout/MapHudControls'
 import { RealmHeader } from '../components/layout/RealmHeader'
+import { ResumeModal } from '../components/layout/ResumeModal'
 import { useRealm } from '../context/realmContextCore'
 import { DESTINATIONS } from '../data/destinations'
 import { useRealmAudioSync } from '../hooks/useRealmAudio'
 import { RealmWorldCanvas } from '../scenes/RealmWorldCanvas'
 import { AboutSection } from '../sections/AboutSection'
 import { AchievementsSection } from '../sections/AchievementsSection'
+import { ChronicleView } from '../sections/ChronicleView'
 import { ContactSection } from '../sections/ContactSection'
 import { ExperienceSection } from '../sections/ExperienceSection'
 import { ProjectsSection } from '../sections/ProjectsSection'
@@ -69,9 +71,11 @@ export function AppShell() {
         <ContentPanelShell>
           <ActiveSectionContent />
         </ContentPanelShell>
+        <ChronicleView />
       </main>
 
       <DestinationNavBar />
+      <ResumeModal />
     </div>
   )
 }

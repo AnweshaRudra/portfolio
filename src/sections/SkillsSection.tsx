@@ -1,4 +1,6 @@
 import { BookOpen } from 'lucide-react'
+import { ManuscriptCard } from '../components/ui/ManuscriptCard'
+import { WaxSealBadge } from '../components/ui/WaxSealBadge'
 import { SKILL_CATEGORIES } from '../data/skills'
 
 export function SkillsSection() {
@@ -10,28 +12,20 @@ export function SkillsSection() {
           <span>Verified Technical Arsenal</span>
         </p>
         <p className="mt-1.5 text-xs leading-relaxed text-[#E5D5B9]/80">
-          Organised into functional domains from Anwesha&apos;s verified resume rather than arbitrary
+          Organised into functional houses from Anwesha&apos;s verified resume rather than arbitrary
           proficiency percentages.
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {SKILL_CATEGORIES.map((category) => (
-          <section
+          <ManuscriptCard
             key={category.id}
-            aria-labelledby={`skill-${category.id}`}
-            className="surface-parchment rounded-md p-4"
+            eyebrow={category.houseTitle}
+            title={category.categoryName}
+            badge={<WaxSealBadge label={`${category.skills.length} Skills`} tone="gold" />}
           >
-            <p className="font-display text-[10px] tracking-[0.2em] uppercase text-[#741F20]">
-              {category.houseTitle}
-            </p>
-            <h3
-              id={`skill-${category.id}`}
-              className="mt-0.5 font-display text-base font-bold text-[#241B14]"
-            >
-              {category.categoryName}
-            </h3>
-            <p className="mt-1 text-xs leading-relaxed text-[#524234]">{category.description}</p>
+            <p className="text-xs leading-relaxed text-[#524234]">{category.description}</p>
 
             <ul className="mt-3 flex flex-wrap gap-1.5">
               {category.skills.map((skill) => (
@@ -43,7 +37,7 @@ export function SkillsSection() {
                 </li>
               ))}
             </ul>
-          </section>
+          </ManuscriptCard>
         ))}
       </div>
     </div>

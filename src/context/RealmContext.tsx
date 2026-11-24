@@ -13,6 +13,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
   const [focusedId, setFocusedId] = useState<DestinationId | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const [isNavDrawerOpen, setNavDrawerOpen] = useState(false)
+  const [isResumeOpen, setResumeOpen] = useState(false)
   // Sound is strictly off by default until explicit user consent
   const [audioEnabled, setAudioEnabled] = useState(false)
   const [manualReducedMotion, setManualReducedMotion] = useState<boolean | null>(null)
@@ -39,7 +40,15 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     setIsPanelOpen(false)
     setSelectedId(null)
     setNavDrawerOpen(false)
+    setResumeOpen(false)
     setScene('intro')
+  }, [])
+
+  const openChronicle = useCallback(() => {
+    setIsPanelOpen(false)
+    setSelectedId(null)
+    setNavDrawerOpen(false)
+    setScene('chronicle')
   }, [])
 
   const selectDestination = useCallback((id: DestinationId) => {
@@ -86,11 +95,13 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     setIsSceneReady(true)
   }, [])
 
-  // Support Escape key to close active content panels or nav drawer
+  // Support Escape key to close active modals, content panels, or nav drawer
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        if (isPanelOpen) {
+        if (isResumeOpen) {
+          setResumeOpen(false)
+        } else if (isPanelOpen) {
           closePanel()
         } else if (isNavDrawerOpen) {
           setNavDrawerOpen(false)
@@ -99,7 +110,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [closePanel, isNavDrawerOpen, isPanelOpen])
+  }, [closePanel, isNavDrawerOpen, isPanelOpen, isResumeOpen])
 
   const selectedDestination = useMemo(
     () => DESTINATIONS.find((item) => item.id === selectedId) ?? null,
@@ -115,6 +126,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       focusedId,
       isPanelOpen,
       isNavDrawerOpen,
+      isResumeOpen,
       audioEnabled,
       reducedMotion,
       isSceneReady,
@@ -124,6 +136,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       enterRealm,
       skipIntro,
       replayIntro,
+      openChronicle,
       selectDestination,
       closePanel,
       returnToMap,
@@ -133,6 +146,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       setHoveredId,
       setFocusedId,
       setNavDrawerOpen,
+      setResumeOpen,
       toggleAudio,
       toggleReducedMotion,
       markSceneReady,
@@ -145,6 +159,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       focusedId,
       isPanelOpen,
       isNavDrawerOpen,
+      isResumeOpen,
       audioEnabled,
       reducedMotion,
       isSceneReady,
@@ -154,6 +169,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       enterRealm,
       skipIntro,
       replayIntro,
+      openChronicle,
       selectDestination,
       closePanel,
       returnToMap,

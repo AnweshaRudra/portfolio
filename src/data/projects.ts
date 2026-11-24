@@ -5,6 +5,7 @@ export const PROJECTS: ProjectItem[] = [
     id: 'ai-fake-stock-detector',
     title: 'AI Fake Stock Detector',
     subtitle: 'Financial Anomaly Detection',
+    domain: 'AI & ML',
     status: 'Hackathon Project',
     featured: true,
     summary:
@@ -30,6 +31,7 @@ export const PROJECTS: ProjectItem[] = [
     id: 'business-entity-resolution',
     title: 'Business Entity Resolution',
     subtitle: 'Multi-Source Business Matching',
+    domain: 'AI & ML',
     status: 'Research / Challenge',
     featured: true,
     summary:
@@ -55,6 +57,7 @@ export const PROJECTS: ProjectItem[] = [
     id: 'solarquest',
     title: 'SolarQuest',
     subtitle: 'Intelligent Solar Recommendation App',
+    domain: 'Mobile & API',
     status: 'Hackathon Project',
     featured: true,
     summary:
@@ -80,6 +83,7 @@ export const PROJECTS: ProjectItem[] = [
     id: 'sangyan-shield',
     title: 'SANGYAN Shield',
     subtitle: 'Cybersecurity Detection App',
+    domain: 'Mobile & API',
     status: 'Prototype',
     summary:
       'Cross-platform mobile application integrated with a Python FastAPI backend to submit screenshots and inputs to a cybersecurity detection engine and display returned analysis.',

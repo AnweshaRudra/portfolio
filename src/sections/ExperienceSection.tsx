@@ -1,4 +1,6 @@
 import { Shield } from 'lucide-react'
+import { ManuscriptCard } from '../components/ui/ManuscriptCard'
+import { WaxSealBadge } from '../components/ui/WaxSealBadge'
 import { EXPERIENCE_ITEMS } from '../data/experience'
 
 export function ExperienceSection() {
@@ -17,27 +19,25 @@ export function ExperienceSection() {
 
       <ol className="space-y-4">
         {EXPERIENCE_ITEMS.map((item) => (
-          <li key={item.id} className="surface-parchment rounded-md p-5">
-            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-[#524234]/20 pb-2.5">
-              <div>
-                <h3 className="font-display text-base font-bold text-[#241B14]">{item.title}</h3>
-                <p className="text-xs font-medium text-[#741F20]">{item.context}</p>
+          <li key={item.id}>
+            <ManuscriptCard
+              eyebrow={item.context}
+              title={item.title}
+              badge={<WaxSealBadge label={item.period} tone="stone" />}
+            >
+              <p className="text-xs italic text-[#524234]">{item.statusNote}</p>
+
+              <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[#241B14]/90">
+                {item.responsibilities.map((resp) => (
+                  <li key={resp}>{resp}</li>
+                ))}
+              </ul>
+
+              <div className="mt-3 rounded border border-[#524234]/25 bg-[#171411]/6 p-3 text-xs text-[#241B14]">
+                <strong className="font-semibold text-[#741F20]">Technical Challenges: </strong>
+                {item.challenges}
               </div>
-              <span className="text-xs font-semibold text-[#524234]">{item.period}</span>
-            </div>
-
-            <p className="mt-2.5 text-xs italic text-[#524234]">{item.statusNote}</p>
-
-            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-[#241B14]/90">
-              {item.responsibilities.map((resp) => (
-                <li key={resp}>{resp}</li>
-              ))}
-            </ul>
-
-            <div className="mt-3 rounded border border-[#524234]/25 bg-[#171411]/6 p-3 text-xs text-[#241B14]">
-              <strong className="font-semibold text-[#741F20]">Technical Challenges: </strong>
-              {item.challenges}
-            </div>
+            </ManuscriptCard>
           </li>
         ))}
       </ol>

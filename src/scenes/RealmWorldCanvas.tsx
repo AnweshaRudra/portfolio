@@ -131,6 +131,10 @@ export function RealmWorldCanvas() {
   const { tier } = useViewport()
   const webglSupported = useMemo(() => isWebGLAvailable(), [])
 
+  if (scene === 'chronicle') {
+    return null
+  }
+
   if (!webglSupported) {
     return <RealmFallback2D reason="WebGL is unavailable in this browser; displaying the 2D tactical map." />
   }

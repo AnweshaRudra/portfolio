@@ -1,4 +1,4 @@
-import { Code2, Compass, FileText, Map, Menu, RotateCcw, X } from 'lucide-react'
+import { Code2, Compass, FileText, Map, Menu, RotateCcw, ScrollText, X } from 'lucide-react'
 import { useRealm } from '../../context/realmContextCore'
 import { PROFILE_DATA } from '../../data/profile'
 import { AudioToggle } from '../ui/AudioToggle'
@@ -11,8 +11,9 @@ export function RealmHeader() {
     isNavDrawerOpen,
     returnToMap,
     replayIntro,
-    selectDestination,
+    openChronicle,
     setNavDrawerOpen,
+    setResumeOpen,
   } = useRealm()
 
   const handleResumeClick = () => {
@@ -20,13 +21,13 @@ export function RealmHeader() {
       window.open(PROFILE_DATA.resumeUrl, '_blank', 'noopener,noreferrer')
       return
     }
-    selectDestination('ravens-keep')
+    setResumeOpen(true)
   }
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-30 flex items-center justify-between gap-2 px-3 py-3 sm:px-6 sm:py-4">
       <div className="pointer-events-auto flex items-center gap-2">
-        {scene === 'map' ? (
+        {scene !== 'intro' ? (
           <button
             type="button"
             onClick={returnToMap}
@@ -46,7 +47,7 @@ export function RealmHeader() {
           </div>
         )}
 
-        {scene === 'map' && isPanelOpen && (
+        {((scene === 'map' && isPanelOpen) || scene === 'chronicle') && (
           <button
             type="button"
             onClick={returnToMap}
@@ -76,19 +77,31 @@ export function RealmHeader() {
         <button
           type="button"
           onClick={handleResumeClick}
-          title={PROFILE_DATA.resumeUrl ? 'Open Resume PDF' : PROFILE_DATA.resumePlaceholder}
+          title={PROFILE_DATA.resumeUrl ? 'Open Resume PDF' : 'View Resume Summary'}
           className="inline-flex items-center gap-1.5 rounded border border-[#B18A45]/60 bg-[#392C20]/90 px-2.5 py-1.5 text-xs font-medium text-[#E5D5B9] transition-colors hover:border-[#CFA861] hover:bg-[#493828] cursor-pointer"
         >
           <FileText className="h-3.5 w-3.5 text-[#CFA861]" />
           <span>Resume</span>
         </button>
 
+        {scene !== 'chronicle' && (
+          <button
+            type="button"
+            onClick={openChronicle}
+            title="Read all portfolio sections without 3D interaction"
+            className="inline-flex items-center gap-1.5 rounded border border-[#B18A45]/40 bg-[#171411]/85 px-2.5 py-1.5 text-xs text-[#E5D5B9] hover:border-[#CFA861] cursor-pointer"
+          >
+            <ScrollText className="h-3.5 w-3.5 text-[#B18A45]" />
+            <span className="hidden md:inline">Reader View</span>
+          </button>
+        )}
+
         {scene === 'map' && (
           <button
             type="button"
             onClick={replayIntro}
             title="Replay Throne Room Intro"
-            className="hidden md:inline-flex items-center gap-1.5 rounded border border-[#B18A45]/40 bg-[#171411]/85 px-2.5 py-1.5 text-xs text-[#8C8274] hover:border-[#B18A45] hover:text-[#E5D5B9] cursor-pointer"
+            className="hidden lg:inline-flex items-center gap-1.5 rounded border border-[#B18A45]/40 bg-[#171411]/85 px-2.5 py-1.5 text-xs text-[#8C8274] hover:border-[#B18A45] hover:text-[#E5D5B9] cursor-pointer"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             <span>Intro</span>

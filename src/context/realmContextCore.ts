@@ -14,6 +14,7 @@ export interface RealmContextValue {
   focusedId: DestinationId | null
   isPanelOpen: boolean
   isNavDrawerOpen: boolean
+  isResumeOpen: boolean
   audioEnabled: boolean
   reducedMotion: boolean
   isSceneReady: boolean
@@ -23,6 +24,7 @@ export interface RealmContextValue {
   enterRealm: () => void
   skipIntro: () => void
   replayIntro: () => void
+  openChronicle: () => void
   selectDestination: (id: DestinationId) => void
   closePanel: () => void
   returnToMap: () => void
@@ -32,6 +34,7 @@ export interface RealmContextValue {
   setHoveredId: (id: DestinationId | null) => void
   setFocusedId: (id: DestinationId | null) => void
   setNavDrawerOpen: (open: boolean) => void
+  setResumeOpen: (open: boolean) => void
   toggleAudio: () => void
   toggleReducedMotion: () => void
   markSceneReady: () => void

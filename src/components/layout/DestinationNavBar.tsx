@@ -1,4 +1,4 @@
-import { Compass, ExternalLink, MapPin } from 'lucide-react'
+import { Compass, ExternalLink, MapPin, ScrollText } from 'lucide-react'
 import { useRealm } from '../../context/realmContextCore'
 import { DESTINATIONS } from '../../data/destinations'
 import { PROFILE_DATA } from '../../data/profile'
@@ -13,6 +13,7 @@ export function DestinationNavBar() {
     setFocusedId,
     setNavDrawerOpen,
     replayIntro,
+    openChronicle,
   } = useRealm()
 
   if (scene !== 'map') return null
@@ -76,6 +77,14 @@ export function DestinationNavBar() {
           >
             <MapPin className="h-3.5 w-3.5 text-[#CFA861]" />
             <span className="font-display tracking-wider uppercase">Explore 6 Realms</span>
+          </button>
+          <button
+            type="button"
+            onClick={openChronicle}
+            className="flex items-center justify-center gap-1.5 rounded border border-[#B18A45]/40 bg-[#211C17] px-3 py-2 text-xs font-medium text-[#CFA861] cursor-pointer"
+          >
+            <ScrollText className="h-3.5 w-3.5" />
+            <span>Reader</span>
           </button>
         </div>
       </div>

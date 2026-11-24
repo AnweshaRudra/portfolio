@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { ChevronRight, SkipForward } from 'lucide-react'
+import { ChevronRight, ScrollText, SkipForward } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useRealm } from '../../context/realmContextCore'
 import { PROFILE_DATA } from '../../data/profile'
@@ -9,7 +9,7 @@ import { RealmButton } from '../ui/RealmButton'
 gsap.registerPlugin(useGSAP)
 
 export function IntroOverlay() {
-  const { scene, isSceneReady, reducedMotion, enterRealm, skipIntro, selectDestination } =
+  const { scene, isSceneReady, reducedMotion, enterRealm, skipIntro, openChronicle } =
     useRealm()
   const [showSlowSkip, setShowSlowSkip] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -154,12 +154,9 @@ export function IntroOverlay() {
             <span>Skip Intro</span>
           </RealmButton>
 
-          <RealmButton
-            variant="ghost"
-            onClick={() => selectDestination('kings-landing')}
-            className="text-xs"
-          >
-            Explore Projects Directly
+          <RealmButton variant="ghost" onClick={openChronicle} className="text-xs">
+            <ScrollText className="h-3.5 w-3.5 text-[#B18A45]" />
+            <span>Read Full Chronicle (No 3D)</span>
           </RealmButton>
         </div>
       </div>
