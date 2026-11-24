@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#392C20" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#171411" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="28" y="28" width="1144" height="574" stroke="#B18A45" stroke-opacity="0.55" stroke-width="2"/>
+  <rect x="40" y="40" width="1120" height="550" stroke="#B18A45" stroke-opacity="0.25" stroke-width="1"/>
+  <circle cx="600" cy="210" r="68" stroke="#CFA861" stroke-width="2.5"/>
+  <path d="M600 124L616 194L686 210L616 226L600 296L584 226L514 210L584 194L600 124Z" fill="#B18A45" fill-opacity="0.2" stroke="#CFA861" stroke-width="2"/>
+  <polygon points="600,174 618,210 600,246 582,210" fill="#741F20" stroke="#CFA861" stroke-width="1.8"/>
+  <text x="600" y="346" text-anchor="middle" fill="#E5D5B9" font-family="Georgia, serif" font-size="52" font-weight="700" letter-spacing="8">THE REALM OF ANWESHA</text>
+  <text x="600" y="396" text-anchor="middle" fill="#CFA861" font-family="Georgia, serif" font-style="italic" font-size="28">A Chronicle of Code, Creativity &amp; Conquest</text>
+  <line x1="420" y1="432" x2="780" y2="432" stroke="#B18A45" stroke-opacity="0.6" stroke-width="1.5"/>
+  <text x="600" y="476" text-anchor="middle" fill="#E5D5B9" fill-opacity="0.85" font-family="system-ui, sans-serif" font-size="22">Anwesha Rudra • AI/ML, Data Engineering &amp; Full-Stack Mobile Portfolio</text>
+</svg>

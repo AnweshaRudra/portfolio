@@ -13,8 +13,8 @@ import { RealmFallback2D } from './RealmFallback2D'
 import { SceneErrorBoundary } from './SceneErrorBoundary'
 import { ThroneIntroScene } from './ThroneIntroScene'
 
-function CameraRig() {
-  const { camera } = useThree()
+function CameraRig({ isMobile }: { isMobile: boolean }) {
+  const { camera, invalidate } = useThree()
   const {
     scene,
     selectedDestination,
@@ -43,20 +43,35 @@ function CameraRig() {
         INTRO_CAMERA_POSE,
         reducedMotion,
         0.9,
+        invalidate,
       )
       return () => {
         tweens.forEach((t) => t.kill())
       }
     }
 
+    const overviewPose = isMobile
+      ? {
+          position: [0, 13.6, 14.6] as [number, number, number],
+          target: MAP_OVERVIEW_CAMERA.target,
+        }
+      : MAP_OVERVIEW_CAMERA
+
     const pose = selectedDestination
       ? {
           position: selectedDestination.cameraPosition,
           target: selectedDestination.cameraTarget,
         }
-      : MAP_OVERVIEW_CAMERA
+      : overviewPose
 
-    const tweens = animateCameraToPose(camera, lookAtTarget.current, pose, reducedMotion, 1.05)
+    const tweens = animateCameraToPose(
+      camera,
+      lookAtTarget.current,
+      pose,
+      reducedMotion,
+      1.05,
+      invalidate,
+    )
     if (controlsRef.current) {
       controlsRef.current.target.set(...pose.target)
       controlsRef.current.update()
@@ -64,7 +79,7 @@ function CameraRig() {
     return () => {
       tweens.forEach((t) => t.kill())
     }
-  }, [camera, mapResetNonce, reducedMotion, scene, selectedDestination])
+  }, [camera, invalidate, isMobile, mapResetNonce, reducedMotion, scene, selectedDestination])
 
   // Handle explicit +/- zoom buttons from Map HUD
   useEffect(() => {
@@ -75,7 +90,7 @@ function CameraRig() {
     const nextDist = THREE.MathUtils.clamp(
       mapZoomCommand.direction === 'in' ? currentDist * 0.82 : currentDist * 1.22,
       7.5,
-      18,
+      20,
     )
     offset.setLength(nextDist)
     const nextPos = target.clone().add(offset)
@@ -88,8 +103,9 @@ function CameraRig() {
       },
       reducedMotion,
       0.35,
+      invalidate,
     )
-  }, [camera, mapZoomCommand, reducedMotion, scene, selectedDestination])
+  }, [camera, invalidate, mapZoomCommand, reducedMotion, scene, selectedDestination])
 
   // Gentle restrained intro push-in & live compass azimuth sync
   useFrame((state, delta) => {
@@ -116,7 +132,7 @@ function CameraRig() {
       dampingFactor={0.07}
       enableZoom={!reducedMotion}
       minDistance={7.5}
-      maxDistance={18}
+      maxDistance={20}
       minPolarAngle={Math.PI / 5.5}
       maxPolarAngle={Math.PI / 2.45}
       minAzimuthAngle={-Math.PI / 3}
@@ -127,8 +143,9 @@ function CameraRig() {
 }
 
 export function RealmWorldCanvas() {
-  const { scene } = useRealm()
+  const { scene, reducedMotion } = useRealm()
   const { tier } = useViewport()
+  const isMobile = tier === 'mobile'
   const webglSupported = useMemo(() => isWebGLAvailable(), [])
 
   if (scene === 'chronicle') {
@@ -136,10 +153,12 @@ export function RealmWorldCanvas() {
   }
 
   if (!webglSupported) {
-    return <RealmFallback2D reason="WebGL is unavailable in this browser; displaying the 2D tactical map." />
+    return (
+      <RealmFallback2D reason="WebGL is unavailable in this browser; displaying the 2D tactical map." />
+    )
   }
 
-  const dpr: [number, number] = tier === 'mobile' ? [1, 1.35] : [1, 2]
+  const dpr: [number, number] = isMobile ? [1, 1.35] : [1, 2]
 
   return (
     <SceneErrorBoundary
@@ -158,14 +177,15 @@ export function RealmWorldCanvas() {
           }
         >
           <Canvas
-            shadows={tier !== 'mobile'}
+            frameloop={reducedMotion ? 'demand' : 'always'}
+            shadows={!isMobile}
             dpr={dpr}
             camera={{ position: INTRO_CAMERA_POSE.position, fov: 46, near: 0.1, far: 100 }}
-            gl={{ antialias: tier !== 'mobile', powerPreference: 'high-performance' }}
+            gl={{ antialias: !isMobile, powerPreference: 'high-performance' }}
           >
             <color attach="background" args={['#171411']} />
             <fog attach="fog" args={['#171411', 15, 36]} />
-            <CameraRig />
+            <CameraRig isMobile={isMobile} />
             {scene === 'intro' ? <ThroneIntroScene /> : <KingdomMapScene />}
           </Canvas>
         </Suspense>
@@ -173,3 +193,5 @@ export function RealmWorldCanvas() {
     </SceneErrorBoundary>
   )
 }
+
+export default RealmWorldCanvas

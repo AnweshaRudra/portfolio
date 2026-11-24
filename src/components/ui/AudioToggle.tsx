@@ -16,8 +16,8 @@ export function AudioToggle() {
       type="button"
       onClick={handleToggle}
       aria-pressed={audioEnabled}
-      aria-label={audioEnabled ? 'Mute realm audio' : 'Enable realm audio (off by default)'}
-      title={audioEnabled ? 'Mute ambient soundscape' : 'Enable subtle medieval ambient soundscape'}
+      aria-label={audioEnabled ? 'Mute realm score and audio' : 'Enable original medieval score and sound (off by default)'}
+      title={audioEnabled ? 'Mute medieval orchestral score' : 'Play original D-Dorian medieval score'}
       className={`inline-flex items-center gap-1.5 rounded border px-2.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
         audioEnabled
           ? 'border-[#CFA861] bg-[#392C20] text-[#CFA861]'

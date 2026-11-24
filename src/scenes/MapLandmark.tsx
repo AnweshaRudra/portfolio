@@ -359,7 +359,7 @@ export function MapLandmark({
             onFocus={() => onHoverChange(destination.id)}
             onBlur={() => onHoverChange(null)}
             aria-label={`${destination.realmName}: ${destination.portfolioTitle}`}
-            className={`group flex flex-col items-center rounded border px-2.5 py-1 text-center transition-all whitespace-nowrap cursor-pointer ${
+            className={`group flex min-h-[38px] flex-col items-center justify-center rounded border px-2.5 py-1 text-center transition-all whitespace-nowrap cursor-pointer ${
               emphasized
                 ? 'border-[#CFA861] bg-[#171411]/95 text-[#E5D5B9] shadow-2xl scale-105'
                 : 'border-[#B18A45]/55 bg-[#171411]/88 text-[#E5D5B9]/92 hover:border-[#CFA861]'

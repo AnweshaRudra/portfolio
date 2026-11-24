@@ -9,8 +9,9 @@ A Chronicle of Code, Creativity & Conquest — an interactive, medieval-fantasy 
 - **Milestone 2 — Cinematic throne-room experience**: Complete
 - **Milestone 3 — Kingdom map and cinematic navigation**: Complete
 - **Milestone 4 — Portfolio content and case studies**: Complete
-- **Milestone 5 — Atmosphere, sound and Easter eggs**: Complete
-- **Milestone 6 — Responsive design, accessibility and performance**: Pending review
+- **Milestone 5 — Atmosphere, sound and Easter eggs**: Complete (upgraded with original D-Dorian Web Audio orchestral score)
+- **Milestone 6 — Responsive design, accessibility and performance**: Complete
+- **Milestone 7 — Quality assurance and deployment**: Pending review
 
 ## Setup & Scripts
 

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { RoyalCommandModal } from '../components/easter-eggs/RoyalCommandModal'
 import { ContentPanelShell } from '../components/layout/ContentPanelShell'
 import { DestinationNavBar } from '../components/layout/DestinationNavBar'
@@ -8,14 +9,17 @@ import { ResumeModal } from '../components/layout/ResumeModal'
 import { useRealm } from '../context/realmContextCore'
 import { DESTINATIONS } from '../data/destinations'
 import { useRealmAudioSync } from '../hooks/useRealmAudio'
-import { RealmWorldCanvas } from '../scenes/RealmWorldCanvas'
 import { AboutSection } from '../sections/AboutSection'
 import { AchievementsSection } from '../sections/AchievementsSection'
-import { ChronicleView } from '../sections/ChronicleView'
 import { ContactSection } from '../sections/ContactSection'
 import { ExperienceSection } from '../sections/ExperienceSection'
 import { ProjectsSection } from '../sections/ProjectsSection'
 import { SkillsSection } from '../sections/SkillsSection'
+
+const LazyRealmWorldCanvas = lazy(() => import('../scenes/RealmWorldCanvas'))
+const LazyChronicleView = lazy(() =>
+  import('../sections/ChronicleView').then((mod) => ({ default: mod.ChronicleView })),
+)
 
 function ActiveSectionContent() {
   const { selectedId } = useRealm()
@@ -40,18 +44,60 @@ function ActiveSectionContent() {
 
 export function AppShell() {
   useRealmAudioSync()
-  const { scene, hoveredId, focusedId, isPanelOpen } = useRealm()
+  const { scene, hoveredId, focusedId, selectedDestination, isPanelOpen, openChronicle } =
+    useRealm()
+
   const previewId = hoveredId ?? focusedId
   const previewDestination = previewId
     ? DESTINATIONS.find((dest) => dest.id === previewId) ?? null
     : null
 
+  const liveAnnouncement = selectedDestination
+    ? `Opened ${selectedDestination.realmName}: ${selectedDestination.portfolioTitle}`
+    : scene === 'chronicle'
+      ? 'Switched to Conventional Reader View'
+      : scene === 'map'
+        ? 'Viewing Kingdom Map with six portfolio landmarks'
+        : 'Viewing Throne Room introduction'
+
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-[#171411] text-[#E5D5B9]">
-      <RealmWorldCanvas />
+    <div className="relative min-h-screen w-full overflow-x-clip bg-[#171411] text-[#E5D5B9]">
+      {/* Keyboard skip link for screen readers and keyboard-only navigation */}
+      <a
+        href="#realm-main-content"
+        onClick={(e) => {
+          if (scene === 'intro') {
+            e.preventDefault()
+            openChronicle()
+          }
+        }}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded focus:border focus:border-[#CFA861] focus:bg-[#171411] focus:px-3 focus:py-2 focus:text-xs focus:font-medium focus:text-[#CFA861]"
+      >
+        Skip to portfolio content
+      </a>
+
+      {/* Live region announcing scene & landmark changes */}
+      <div className="sr-only" aria-live="polite">
+        {liveAnnouncement}
+      </div>
+
+      {scene !== 'chronicle' && (
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-0 flex items-center justify-center bg-[#171411] text-[#B18A45]">
+              <p className="font-display text-xs tracking-[0.2em] uppercase">
+                Summoning the Realm…
+              </p>
+            </div>
+          }
+        >
+          <LazyRealmWorldCanvas />
+        </Suspense>
+      )}
+
       <RealmHeader />
 
-      <main>
+      <main id="realm-main-content" tabIndex={-1}>
         <IntroOverlay />
         <MapHudControls />
 
@@ -72,7 +118,18 @@ export function AppShell() {
         <ContentPanelShell>
           <ActiveSectionContent />
         </ContentPanelShell>
-        <ChronicleView />
+
+        {scene === 'chronicle' && (
+          <Suspense
+            fallback={
+              <div className="flex min-h-screen items-center justify-center text-xs text-[#CFA861]">
+                Loading Reader View…
+              </div>
+            }
+          >
+            <LazyChronicleView />
+          </Suspense>
+        )}
       </main>
 
       <DestinationNavBar />

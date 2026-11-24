@@ -17,6 +17,7 @@ export function animateCameraToPose(
   destination: CameraPose,
   reducedMotion: boolean,
   duration = 1.05,
+  onFrameInvalidate?: () => void,
 ): gsap.core.Tween[] {
   gsap.killTweensOf(camera.position)
   gsap.killTweensOf(lookAtTarget)
@@ -25,6 +26,7 @@ export function animateCameraToPose(
     camera.position.set(...destination.position)
     lookAtTarget.set(...destination.target)
     camera.lookAt(lookAtTarget)
+    onFrameInvalidate?.()
     return []
   }
 
@@ -34,6 +36,9 @@ export function animateCameraToPose(
     z: destination.position[2],
     duration,
     ease: 'power2.inOut',
+    onUpdate: () => {
+      onFrameInvalidate?.()
+    },
   })
 
   const targetTween = gsap.to(lookAtTarget, {
@@ -44,6 +49,7 @@ export function animateCameraToPose(
     ease: 'power2.inOut',
     onUpdate: () => {
       camera.lookAt(lookAtTarget)
+      onFrameInvalidate?.()
     },
   })
 
