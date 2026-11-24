@@ -97,29 +97,38 @@ export function IntroOverlay() {
           </div>
         )}
 
-        <p
+        <div
           data-intro-reveal=""
           data-intro-eyebrow=""
-          className="font-display text-[10px] tracking-[0.24em] uppercase text-[#B18A45] sm:text-xs"
+          className="flex flex-col items-center gap-3 md:flex-row md:items-center"
         >
-          {PROFILE_DATA.ownerName} • {PROFILE_DATA.location}
-        </p>
+          <img
+            src="/sovereign-portrait.jpg"
+            alt="Anwesha Rudra — Sovereign Portrait"
+            className="h-20 w-16 shrink-0 rounded border border-[#CFA861]/75 object-cover object-top shadow-lg"
+          />
+          <div>
+            <p className="font-display text-[10px] tracking-[0.24em] uppercase text-[#B18A45] sm:text-xs">
+              {PROFILE_DATA.ownerName} • {PROFILE_DATA.location}
+            </p>
 
-        <h1
-          data-intro-reveal=""
-          data-intro-title=""
-          className="mt-1.5 font-display text-xl font-bold tracking-[0.11em] uppercase text-[#E5D5B9] sm:text-3xl"
-        >
-          {PROFILE_DATA.realmTitle}
-        </h1>
+            <h1
+              data-intro-reveal=""
+              data-intro-title=""
+              className="mt-1 font-display text-xl font-bold tracking-[0.11em] uppercase text-[#E5D5B9] sm:text-3xl"
+            >
+              {PROFILE_DATA.realmTitle}
+            </h1>
 
-        <p
-          data-intro-reveal=""
-          data-intro-tagline=""
-          className="mt-1 font-editorial text-base italic text-[#CFA861] sm:text-lg"
-        >
-          {PROFILE_DATA.tagline}
-        </p>
+            <p
+              data-intro-reveal=""
+              data-intro-tagline=""
+              className="mt-1 font-editorial text-base italic text-[#CFA861] sm:text-lg"
+            >
+              {PROFILE_DATA.tagline}
+            </p>
+          </div>
+        </div>
 
         <div
           data-intro-reveal=""

@@ -1,10 +1,10 @@
 import { Sparkles, useGLTF } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useRealm } from '../context/realmContextCore'
 import { useViewport } from '../hooks/useViewport'
-import { loadSovereignCutoutTexture } from '../utils/portraitCutout'
+import { createEllipticalVignetteAlphaMap } from '../utils/portraitCutout'
 
 const THRONE_MODEL_PATH = '/models/sovereign-throne.glb'
 const SOVEREIGN_PORTRAIT_PATH = '/sovereign-portrait.jpg'
@@ -43,47 +43,63 @@ function ThroneFallbackSilhouette() {
 }
 
 function SeatedSovereignFigure() {
-  const [portraitTexture, setPortraitTexture] = useState<THREE.CanvasTexture | null>(null)
+  const { invalidate } = useThree()
+  const [textures, setTextures] = useState<{
+    map: THREE.Texture
+    alphaMap: THREE.CanvasTexture
+  } | null>(null)
 
   useEffect(() => {
     let active = true
-    let createdTex: THREE.CanvasTexture | null = null
+    const loader = new THREE.TextureLoader()
+    let loadedTex: THREE.Texture | null = null
+    let alphaTex: THREE.CanvasTexture | null = null
 
-    loadSovereignCutoutTexture(SOVEREIGN_PORTRAIT_PATH)
-      .then((tex) => {
+    loader.load(
+      SOVEREIGN_PORTRAIT_PATH,
+      (tex) => {
         if (!active) {
           tex.dispose()
           return
         }
-        createdTex = tex
-        setPortraitTexture(tex)
-      })
-      .catch(() => {
-        // Gracefully fall back to empty throne if portrait fails to load
-      })
+        tex.colorSpace = THREE.SRGBColorSpace
+        tex.needsUpdate = true
+        alphaTex = createEllipticalVignetteAlphaMap(512)
+        loadedTex = tex
+        setTextures({ map: tex, alphaMap: alphaTex })
+        invalidate()
+      },
+      undefined,
+      () => {
+        // Fallback to empty throne if portrait is missing
+      },
+    )
 
     return () => {
       active = false
-      createdTex?.dispose()
+      loadedTex?.dispose()
+      alphaTex?.dispose()
     }
-  }, [])
+  }, [invalidate])
 
-  if (!portraitTexture) return null
+  if (!textures) return null
 
   return (
-    <mesh position={[0, 2.02, -2.72]} castShadow={false}>
-      <planeGeometry args={[1.65, 2.2]} />
-      <meshStandardMaterial
-        map={portraitTexture}
-        transparent
-        alphaTest={0.06}
-        roughness={0.72}
-        metalness={0.05}
-        emissive="#2b1e12"
-        emissiveIntensity={0.28}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <group position={[0, 2.08, -2.22]}>
+      {/* Warm dedicated fill light illuminating the seated portrait */}
+      <pointLight position={[0, 0.3, 1.4]} intensity={4} distance={5} color="#ffdba8" />
+      <mesh>
+        <planeGeometry args={[1.76, 2.34]} />
+        <meshBasicMaterial
+          map={textures.map}
+          alphaMap={textures.alphaMap}
+          transparent
+          depthWrite={false}
+          color="#f7ebd8"
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+    </group>
   )
 }
 
