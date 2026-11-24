@@ -1,0 +1,29 @@
+:root {
+  /* Core palette from Build Brief */
+  --color-obsidian: #171411;
+  --color-obsidian-soft: #211c17;
+  --color-old-leather: #392c20;
+  --color-old-leather-deep: #2a2017;
+  --color-royal-gold: #b18a45;
+  --color-royal-gold-bright: #cfa861;
+  --color-blood-red: #741f20;
+  --color-parchment: #e3d2ad;
+  --color-parchment-light: #efe3c8;
+  --color-warm-ivory: #e5d5b9;
+  --color-muted-stone: #8c8274;
+  --color-ink: #241b14;
+  --color-ink-muted: #524234;
+
+  /* Typography */
+  --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Elevation & Borders */
+  --border-gold: 1px solid rgba(177, 138, 69, 0.42);
+  --border-gold-strong: 1px solid rgba(177, 138, 69, 0.78);
+  --shadow-realm: 0 22px 55px rgba(0, 0, 0, 0.65);
+  --shadow-card: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
