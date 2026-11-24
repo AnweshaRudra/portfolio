@@ -1,4 +1,6 @@
-import { useEffect, useMemo } from 'react'
+import { Sparkles } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useRealm } from '../context/realmContextCore'
 import { DESTINATIONS } from '../data/destinations'
@@ -48,6 +50,12 @@ export function KingdomMapScene() {
 
   const { tier } = useViewport()
   const isMobile = tier === 'mobile'
+  const seaRef = useRef<THREE.Mesh>(null)
+
+  useFrame(({ clock }) => {
+    if (reducedMotion || !seaRef.current) return
+    seaRef.current.position.y = 0.02 + Math.sin(clock.getElapsedTime() * 0.9) * 0.012
+  })
 
   const mapTexture = useMemo(
     () => createKingdomMapTexture(isMobile ? 512 : 1024),
@@ -108,11 +116,37 @@ export function KingdomMapScene() {
         <meshStandardMaterial color="#8f6f39" roughness={0.42} metalness={0.68} />
       </mesh>
 
-      {/* Reflective Coastal Sea Plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
+      {/* Reflective Coastal Sea Plane with subtle tide shimmer */}
+      <mesh ref={seaRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
         <planeGeometry args={[MAP_WIDTH, MAP_DEPTH]} />
         <meshStandardMaterial color="#1a2630" roughness={0.34} metalness={0.32} />
       </mesh>
+
+      {/* Atmospheric Northern Frost Motes & Warm Map Dust */}
+      {!reducedMotion && (
+        <>
+          <Sparkles
+            count={isMobile ? 12 : 28}
+            scale={[14, 1.5, 4]}
+            position={[0, 1.4, -4.5]}
+            size={isMobile ? 1.4 : 1.9}
+            speed={0.18}
+            opacity={0.38}
+            color="#d8e3ec"
+          />
+          {!isMobile && (
+            <Sparkles
+              count={22}
+              scale={[16, 2.2, 12]}
+              position={[0, 1.6, 0.5]}
+              size={1.6}
+              speed={0.14}
+              opacity={0.3}
+              color="#cfa861"
+            />
+          )}
+        </>
+      )}
 
       {/* Sculpted 2.5D Textured Kingdom Terrain */}
       <mesh geometry={terrainGeometry} receiveShadow castShadow={!isMobile}>

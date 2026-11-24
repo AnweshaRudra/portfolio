@@ -2,6 +2,7 @@ import { BookMarked, Compass, Minus, Plus, RotateCcw } from 'lucide-react'
 import { useState } from 'react'
 import { useRealm } from '../../context/realmContextCore'
 import { DESTINATIONS } from '../../data/destinations'
+import { ThreeEyedRavenEgg } from '../easter-eggs/ThreeEyedRavenEgg'
 
 export function MapHudControls() {
   const {
@@ -88,6 +89,7 @@ export function MapHudControls() {
             <BookMarked className="h-3 w-3" />
             <span className="hidden sm:inline">Legend</span>
           </button>
+          <ThreeEyedRavenEgg />
         </div>
       </div>
 

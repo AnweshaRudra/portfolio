@@ -48,6 +48,8 @@ export function ThroneIntroScene() {
   const leftBrazierLightRef = useRef<THREE.PointLight>(null)
   const rightBrazierLightRef = useRef<THREE.PointLight>(null)
   const crestSpotRef = useRef<THREE.PointLight>(null)
+  const leftBannerRef = useRef<THREE.Mesh>(null)
+  const rightBannerRef = useRef<THREE.Mesh>(null)
 
   useEffect(() => {
     markSceneReady()
@@ -65,6 +67,12 @@ export function ThroneIntroScene() {
     }
     if (crestSpotRef.current) {
       crestSpotRef.current.intensity = 10 + Math.sin(t * 1.4) * 0.6
+    }
+    if (leftBannerRef.current) {
+      leftBannerRef.current.rotation.x = Math.sin(t * 1.1) * 0.035
+    }
+    if (rightBannerRef.current) {
+      rightBannerRef.current.rotation.x = Math.cos(t * 1.05 + 0.6) * 0.035
     }
   })
 
@@ -142,6 +150,20 @@ export function ThroneIntroScene() {
         <boxGeometry args={[18, 8.6, 0.9]} />
         <meshStandardMaterial color="#201a15" roughness={0.95} />
       </mesh>
+
+      {/* Subtle Swaying Royal Banners Flanking the Throne */}
+      {!isMobile && (
+        <>
+          <mesh ref={leftBannerRef} position={[-3.9, 3.6, -5.95]} castShadow>
+            <boxGeometry args={[0.72, 3.3, 0.05]} />
+            <meshStandardMaterial color="#581a1b" roughness={0.85} />
+          </mesh>
+          <mesh ref={rightBannerRef} position={[3.9, 3.6, -5.95]} castShadow>
+            <boxGeometry args={[0.72, 3.3, 0.05]} />
+            <meshStandardMaterial color="#581a1b" roughness={0.85} />
+          </mesh>
+        </>
+      )}
 
       {/* Moonlit Lancet Windows & Affordable Light Shafts */}
       {LANCET_WINDOWS.map((xPos) => (

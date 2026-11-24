@@ -1,5 +1,6 @@
 import { Briefcase, Code2, ExternalLink, Feather, FileText, Mail, Send } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
+import { NightsWatchWhisper } from '../components/easter-eggs/NightsWatchWhisper'
 import { ManuscriptCard } from '../components/ui/ManuscriptCard'
 import { PROFILE_DATA } from '../data/profile'
 
@@ -183,6 +184,8 @@ export function ContactSection() {
           <span>Dispatch Raven</span>
         </button>
       </form>
+
+      <NightsWatchWhisper />
     </div>
   )
 }

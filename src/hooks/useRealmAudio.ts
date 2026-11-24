@@ -3,18 +3,21 @@ import { useRealm } from '../context/realmContextCore'
 import { realmAudioEngine } from '../utils/audioEngine'
 
 export function useRealmAudioSync() {
-  const { audioEnabled, isPanelOpen, scene, selectedId } = useRealm()
+  const { audioEnabled, isPanelOpen, scene, selectedId, hoveredId } = useRealm()
   const prevSceneRef = useRef(scene)
   const prevSelectedRef = useRef(selectedId)
+  const prevHoveredRef = useRef(hoveredId)
 
   useEffect(() => {
-    void realmAudioEngine.setEnabled(audioEnabled, isPanelOpen)
-  }, [audioEnabled, isPanelOpen])
+    void realmAudioEngine.setEnabled(audioEnabled, isPanelOpen || scene === 'chronicle')
+    realmAudioEngine.setSceneAtmosphere(scene)
+  }, [audioEnabled, isPanelOpen, scene])
 
   useEffect(() => {
     if (!audioEnabled) {
       prevSceneRef.current = scene
       prevSelectedRef.current = selectedId
+      prevHoveredRef.current = hoveredId
       return
     }
 
@@ -22,9 +25,12 @@ export function useRealmAudioSync() {
       realmAudioEngine.playInteractionChime('enter')
     } else if (prevSelectedRef.current !== selectedId) {
       realmAudioEngine.playInteractionChime(selectedId ? 'select' : 'close')
+    } else if (hoveredId && prevHoveredRef.current !== hoveredId) {
+      realmAudioEngine.playInteractionChime('hover')
     }
 
     prevSceneRef.current = scene
     prevSelectedRef.current = selectedId
-  }, [audioEnabled, scene, selectedId])
+    prevHoveredRef.current = hoveredId
+  }, [audioEnabled, hoveredId, scene, selectedId])
 }

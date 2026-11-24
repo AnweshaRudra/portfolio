@@ -1,4 +1,5 @@
 import { Award, Medal } from 'lucide-react'
+import { DragonsSecretEgg } from '../components/easter-eggs/DragonsSecretEgg'
 import { ManuscriptCard } from '../components/ui/ManuscriptCard'
 import { WaxSealBadge } from '../components/ui/WaxSealBadge'
 import { ACHIEVEMENTS } from '../data/achievements'
@@ -49,6 +50,8 @@ export function AchievementsSection() {
           </li>
         ))}
       </ul>
+
+      <DragonsSecretEgg />
     </div>
   )
 }

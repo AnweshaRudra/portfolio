@@ -1,3 +1,4 @@
+import { RoyalCommandModal } from '../components/easter-eggs/RoyalCommandModal'
 import { ContentPanelShell } from '../components/layout/ContentPanelShell'
 import { DestinationNavBar } from '../components/layout/DestinationNavBar'
 import { IntroOverlay } from '../components/layout/IntroOverlay'
@@ -76,6 +77,7 @@ export function AppShell() {
 
       <DestinationNavBar />
       <ResumeModal />
+      <RoyalCommandModal />
     </div>
   )
 }
