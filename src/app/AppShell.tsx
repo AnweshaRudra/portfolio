@@ -1,6 +1,7 @@
 import { ContentPanelShell } from '../components/layout/ContentPanelShell'
 import { DestinationNavBar } from '../components/layout/DestinationNavBar'
 import { IntroOverlay } from '../components/layout/IntroOverlay'
+import { MapHudControls } from '../components/layout/MapHudControls'
 import { RealmHeader } from '../components/layout/RealmHeader'
 import { useRealm } from '../context/realmContextCore'
 import { DESTINATIONS } from '../data/destinations'
@@ -49,6 +50,7 @@ export function AppShell() {
 
       <main>
         <IntroOverlay />
+        <MapHudControls />
 
         {/* Subtle hovered/focused destination preview banner on map */}
         {scene === 'map' && !isPanelOpen && previewDestination && (

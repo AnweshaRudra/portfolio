@@ -1,26 +1,37 @@
-import { DESTINATIONS } from '../data/destinations'
+import { useEffect, useMemo } from 'react'
+import * as THREE from 'three'
 import { useRealm } from '../context/realmContextCore'
+import { DESTINATIONS } from '../data/destinations'
+import { useViewport } from '../hooks/useViewport'
+import {
+  createKingdomMapTexture,
+  getRealmElevation,
+  MAP_DEPTH,
+  MAP_WIDTH,
+} from '../utils/kingdomGeography'
 import { MapLandmark } from './MapLandmark'
 
-const MOUNTAIN_PEAKS: Array<{ pos: [number, number, number]; radius: number; height: number }> = [
-  { pos: [-5.8, 0.8, -5.4], radius: 1.4, height: 2.2 },
-  { pos: [-4.2, 0.7, -5.8], radius: 1.1, height: 1.8 },
-  { pos: [-2.4, 0.9, -5.6], radius: 1.5, height: 2.4 },
-  { pos: [2.5, 0.85, -5.5], radius: 1.4, height: 2.1 },
-  { pos: [4.3, 0.7, -5.3], radius: 1.15, height: 1.75 },
-  { pos: [-6.4, 0.65, -0.8], radius: 1.0, height: 1.5 },
+const MOUNTAIN_PEAKS: Array<{ x: number; z: number; radius: number; height: number; snow: boolean }> = [
+  { x: -5.8, z: -5.4, radius: 1.15, height: 1.9, snow: true },
+  { x: -4.2, z: -5.8, radius: 0.95, height: 1.55, snow: true },
+  { x: -2.4, z: -5.6, radius: 1.25, height: 2.1, snow: true },
+  { x: 2.5, z: -5.5, radius: 1.15, height: 1.85, snow: true },
+  { x: 4.3, z: -5.3, radius: 0.95, height: 1.5, snow: true },
+  { x: -6.5, z: -1.1, radius: 0.85, height: 1.25, snow: false },
+  { x: -3.2, z: -0.4, radius: 0.72, height: 1.05, snow: false },
 ]
 
-const FOREST_CLUSTERS: Array<[number, number, number]> = [
-  [-3.1, 0.28, -2.0],
-  [-2.6, 0.28, -2.4],
-  [-2.9, 0.28, -1.5],
-  [-3.3, 0.28, 1.3],
-  [-2.8, 0.28, 1.7],
-  [2.5, 0.28, -1.2],
-  [2.9, 0.28, -0.7],
-  [2.3, 0.28, 3.2],
-  [2.8, 0.28, 2.8],
+const FOREST_CLUSTERS: Array<[number, number]> = [
+  [-3.1, -2.1],
+  [-2.6, -2.5],
+  [-2.9, -1.6],
+  [-3.4, 1.3],
+  [-2.8, 1.7],
+  [-3.1, 2.2],
+  [2.5, -1.2],
+  [2.9, -0.7],
+  [2.3, 3.1],
+  [2.8, 2.7],
 ]
 
 export function KingdomMapScene() {
@@ -32,65 +43,113 @@ export function KingdomMapScene() {
     isPanelOpen,
     selectDestination,
     setHoveredId,
+    markSceneReady,
   } = useRealm()
 
+  const { tier } = useViewport()
+  const isMobile = tier === 'mobile'
+
+  const mapTexture = useMemo(
+    () => createKingdomMapTexture(isMobile ? 512 : 1024),
+    [isMobile],
+  )
+
+  const terrainGeometry = useMemo(() => {
+    const segX = isMobile ? 42 : 76
+    const segZ = isMobile ? 36 : 64
+    const geo = new THREE.PlaneGeometry(MAP_WIDTH, MAP_DEPTH, segX, segZ)
+    geo.rotateX(-Math.PI / 2)
+
+    const pos = geo.attributes.position
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i)
+      const z = pos.getZ(i)
+      pos.setY(i, getRealmElevation(x, z))
+    }
+    geo.computeVertexNormals()
+    return geo
+  }, [isMobile])
+
+  useEffect(() => {
+    markSceneReady()
+  }, [markSceneReady])
+
+  useEffect(() => {
+    return () => {
+      mapTexture.dispose()
+      terrainGeometry.dispose()
+    }
+  }, [mapTexture, terrainGeometry])
+
   return (
-    <group name="kingdom-map-greybox">
-      <ambientLight intensity={0.55} color="#cab89c" />
+    <group name="kingdom-map-25d">
+      <ambientLight intensity={0.62} color="#ccb99a" />
       <directionalLight
-        position={[8, 14, 7]}
-        intensity={1.35}
-        color="#f1d7a8"
-        castShadow
+        position={[9, 14, 8]}
+        intensity={1.4}
+        color="#f5dbb0"
+        castShadow={!isMobile}
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
+        shadow-camera-left={-12}
+        shadow-camera-right={12}
+        shadow-camera-top={12}
+        shadow-camera-bottom={-12}
       />
-      <directionalLight position={[-7, 6, -6]} intensity={0.45} color="#6b8096" />
+      <directionalLight position={[-8, 7, -6]} intensity={0.5} color="#6d86a1" />
 
-      {/* Outer dark sea plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.18, 0]} receiveShadow>
-        <planeGeometry args={[42, 42]} />
-        <meshStandardMaterial color="#161b20" roughness={0.85} metalness={0.18} />
+      {/* Tactical War-Table Outer Obsidian & Brass Frame */}
+      <mesh position={[0, -0.35, 0]} receiveShadow>
+        <boxGeometry args={[MAP_WIDTH + 1.2, 0.55, MAP_DEPTH + 1.2]} />
+        <meshStandardMaterial color="#241c15" roughness={0.86} metalness={0.18} />
+      </mesh>
+      <mesh position={[0, -0.06, 0]}>
+        <boxGeometry args={[MAP_WIDTH + 0.35, 0.08, MAP_DEPTH + 0.35]} />
+        <meshStandardMaterial color="#8f6f39" roughness={0.42} metalness={0.68} />
       </mesh>
 
-      {/* Main original kingdom landmass plateau */}
-      <mesh position={[0, 0.02, -0.3]} receiveShadow castShadow>
-        <boxGeometry args={[15.5, 0.4, 13.5]} />
-        <meshStandardMaterial color="#31271d" roughness={0.94} />
+      {/* Reflective Coastal Sea Plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
+        <planeGeometry args={[MAP_WIDTH, MAP_DEPTH]} />
+        <meshStandardMaterial color="#1a2630" roughness={0.34} metalness={0.32} />
       </mesh>
 
-      {/* Inner highland contour step */}
-      <mesh position={[-0.6, 0.14, -1.8]} receiveShadow>
-        <boxGeometry args={[11.2, 0.2, 8.4]} />
-        <meshStandardMaterial color="#3c3024" roughness={0.92} />
+      {/* Sculpted 2.5D Textured Kingdom Terrain */}
+      <mesh geometry={terrainGeometry} receiveShadow castShadow={!isMobile}>
+        <meshStandardMaterial map={mapTexture} roughness={0.88} metalness={0.05} />
       </mesh>
 
-      {/* Subtle parchment/cartographic grid lines on terrain */}
-      <gridHelper args={[15, 15, '#6a5638', '#423526']} position={[0, 0.23, -0.3]} />
+      {/* Mountain Ridges with Snow Caps */}
+      {MOUNTAIN_PEAKS.map((peak, index) => {
+        const baseY = Math.max(0.1, getRealmElevation(peak.x, peak.z))
+        return (
+          <group key={index} position={[peak.x, baseY, peak.z]}>
+            <mesh position={[0, peak.height * 0.45, 0]} castShadow={!isMobile} receiveShadow>
+              <coneGeometry args={[peak.radius, peak.height, 5]} />
+              <meshStandardMaterial color="#4e4740" roughness={0.92} />
+            </mesh>
+            {peak.snow && (
+              <mesh position={[0, peak.height * 0.78, 0]}>
+                <coneGeometry args={[peak.radius * 0.42, peak.height * 0.4, 5]} />
+                <meshStandardMaterial color="#cfd5d8" roughness={0.8} />
+              </mesh>
+            )}
+          </group>
+        )
+      })}
 
-      {/* Eastern strait separating Dragonstone isle visually */}
-      <mesh position={[4.1, 0.22, 1.8]} receiveShadow>
-        <boxGeometry args={[0.9, 0.06, 4.4]} />
-        <meshStandardMaterial color="#1a2229" roughness={0.7} />
-      </mesh>
+      {/* Pine Forest Clusters */}
+      {FOREST_CLUSTERS.map(([fx, fz], index) => {
+        const baseY = Math.max(0.08, getRealmElevation(fx, fz))
+        return (
+          <mesh key={index} position={[fx, baseY + 0.3, fz]} castShadow={!isMobile}>
+            <coneGeometry args={[0.24, 0.65, 6]} />
+            <meshStandardMaterial color="#2d3f2e" roughness={0.9} />
+          </mesh>
+        )
+      })}
 
-      {/* Greybox northern mountain range silhouettes */}
-      {MOUNTAIN_PEAKS.map((peak, index) => (
-        <mesh key={index} position={peak.pos} castShadow receiveShadow>
-          <coneGeometry args={[peak.radius, peak.height, 5]} />
-          <meshStandardMaterial color="#48413a" roughness={0.92} />
-        </mesh>
-      ))}
-
-      {/* Greybox forest silhouettes */}
-      {FOREST_CLUSTERS.map((pos, index) => (
-        <mesh key={index} position={pos} castShadow>
-          <coneGeometry args={[0.28, 0.68, 6]} />
-          <meshStandardMaterial color="#273628" roughness={0.9} />
-        </mesh>
-      ))}
-
-      {/* Six clickable portfolio landmarks */}
+      {/* Six Clickable Portfolio Landmarks */}
       {DESTINATIONS.map((destination) => (
         <MapLandmark
           key={destination.id}

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import { DESTINATIONS } from '../data/destinations'
 import type { DestinationId, SceneMode } from '../data/types'
 import { useSystemReducedMotion } from '../hooks/useReducedMotion'
-import { RealmContext, type RealmContextValue } from './realmContextCore'
+import { RealmContext, type MapZoomCommand, type RealmContextValue } from './realmContextCore'
 
 export function RealmProvider({ children }: { children: ReactNode }) {
   const systemReducedMotion = useSystemReducedMotion()
@@ -17,6 +17,9 @@ export function RealmProvider({ children }: { children: ReactNode }) {
   const [audioEnabled, setAudioEnabled] = useState(false)
   const [manualReducedMotion, setManualReducedMotion] = useState<boolean | null>(null)
   const [isSceneReady, setIsSceneReady] = useState(false)
+  const [compassAngleDeg, setCompassAngleDeg] = useState(0)
+  const [mapResetNonce, setMapResetNonce] = useState(0)
+  const [mapZoomCommand, setMapZoomCommand] = useState<MapZoomCommand | null>(null)
 
   const reducedMotion = manualReducedMotion ?? systemReducedMotion
 
@@ -56,6 +59,19 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     setIsPanelOpen(false)
     setSelectedId(null)
     setNavDrawerOpen(false)
+  }, [])
+
+  const resetMapView = useCallback(() => {
+    setIsPanelOpen(false)
+    setSelectedId(null)
+    setMapResetNonce((n) => n + 1)
+  }, [])
+
+  const zoomMap = useCallback((direction: 'in' | 'out') => {
+    setMapZoomCommand((prev) => ({
+      direction,
+      nonce: (prev?.nonce ?? 0) + 1,
+    }))
   }, [])
 
   const toggleAudio = useCallback(() => {
@@ -102,12 +118,18 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       audioEnabled,
       reducedMotion,
       isSceneReady,
+      compassAngleDeg,
+      mapResetNonce,
+      mapZoomCommand,
       enterRealm,
       skipIntro,
       replayIntro,
       selectDestination,
       closePanel,
       returnToMap,
+      resetMapView,
+      zoomMap,
+      setCompassAngleDeg,
       setHoveredId,
       setFocusedId,
       setNavDrawerOpen,
@@ -126,12 +148,17 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       audioEnabled,
       reducedMotion,
       isSceneReady,
+      compassAngleDeg,
+      mapResetNonce,
+      mapZoomCommand,
       enterRealm,
       skipIntro,
       replayIntro,
       selectDestination,
       closePanel,
       returnToMap,
+      resetMapView,
+      zoomMap,
       toggleAudio,
       toggleReducedMotion,
       markSceneReady,

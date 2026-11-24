@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react'
 import type { DestinationId, DestinationInfo, SceneMode } from '../data/types'
 
+export interface MapZoomCommand {
+  direction: 'in' | 'out'
+  nonce: number
+}
+
 export interface RealmContextValue {
   scene: SceneMode
   selectedId: DestinationId | null
@@ -12,12 +17,18 @@ export interface RealmContextValue {
   audioEnabled: boolean
   reducedMotion: boolean
   isSceneReady: boolean
+  compassAngleDeg: number
+  mapResetNonce: number
+  mapZoomCommand: MapZoomCommand | null
   enterRealm: () => void
   skipIntro: () => void
   replayIntro: () => void
   selectDestination: (id: DestinationId) => void
   closePanel: () => void
   returnToMap: () => void
+  resetMapView: () => void
+  zoomMap: (direction: 'in' | 'out') => void
+  setCompassAngleDeg: (deg: number) => void
   setHoveredId: (id: DestinationId | null) => void
   setFocusedId: (id: DestinationId | null) => void
   setNavDrawerOpen: (open: boolean) => void

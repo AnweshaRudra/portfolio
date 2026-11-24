@@ -2,6 +2,7 @@ import { OrbitControls } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Suspense, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { animateCameraToPose, INTRO_CAMERA_POSE } from '../animations/cameraTransitions'
 import { useRealm } from '../context/realmContextCore'
 import { MAP_OVERVIEW_CAMERA } from '../data/destinations'
@@ -14,9 +15,20 @@ import { ThroneIntroScene } from './ThroneIntroScene'
 
 function CameraRig() {
   const { camera } = useThree()
-  const { scene, selectedDestination, reducedMotion, markSceneReady } = useRealm()
+  const {
+    scene,
+    selectedDestination,
+    reducedMotion,
+    mapResetNonce,
+    mapZoomCommand,
+    setCompassAngleDeg,
+    markSceneReady,
+  } = useRealm()
+
   const lookAtTarget = useRef(new THREE.Vector3(...INTRO_CAMERA_POSE.target))
+  const controlsRef = useRef<OrbitControlsImpl | null>(null)
   const introOffsetRef = useRef(0)
+  const lastCompassDegRef = useRef(0)
 
   useEffect(() => {
     markSceneReady()
@@ -45,29 +57,70 @@ function CameraRig() {
       : MAP_OVERVIEW_CAMERA
 
     const tweens = animateCameraToPose(camera, lookAtTarget.current, pose, reducedMotion, 1.05)
+    if (controlsRef.current) {
+      controlsRef.current.target.set(...pose.target)
+      controlsRef.current.update()
+    }
     return () => {
       tweens.forEach((t) => t.kill())
     }
-  }, [camera, reducedMotion, scene, selectedDestination])
+  }, [camera, mapResetNonce, reducedMotion, scene, selectedDestination])
 
-  // Gentle restrained push-in during intro only when not reducedMotion
+  // Handle explicit +/- zoom buttons from Map HUD
+  useEffect(() => {
+    if (!mapZoomCommand || scene !== 'map' || selectedDestination) return
+    const target = controlsRef.current?.target ?? lookAtTarget.current
+    const offset = camera.position.clone().sub(target)
+    const currentDist = offset.length()
+    const nextDist = THREE.MathUtils.clamp(
+      mapZoomCommand.direction === 'in' ? currentDist * 0.82 : currentDist * 1.22,
+      7.5,
+      18,
+    )
+    offset.setLength(nextDist)
+    const nextPos = target.clone().add(offset)
+    animateCameraToPose(
+      camera,
+      lookAtTarget.current,
+      {
+        position: [nextPos.x, nextPos.y, nextPos.z],
+        target: [target.x, target.y, target.z],
+      },
+      reducedMotion,
+      0.35,
+    )
+  }, [camera, mapZoomCommand, reducedMotion, scene, selectedDestination])
+
+  // Gentle restrained intro push-in & live compass azimuth sync
   useFrame((state, delta) => {
-    if (scene !== 'intro' || reducedMotion) return
-    if (introOffsetRef.current < 1.2) {
+    if (scene === 'intro' && !reducedMotion && introOffsetRef.current < 1.2) {
       introOffsetRef.current = Math.min(1.2, introOffsetRef.current + delta * 0.16)
       state.camera.position.z = INTRO_CAMERA_POSE.position[2] - introOffsetRef.current
       state.camera.lookAt(lookAtTarget.current)
+    }
+
+    if (scene === 'map' && controlsRef.current) {
+      const deg = Math.round(THREE.MathUtils.radToDeg(controlsRef.current.getAzimuthalAngle()))
+      if (Math.abs(deg - lastCompassDegRef.current) >= 1) {
+        lastCompassDegRef.current = deg
+        setCompassAngleDeg(deg)
+      }
     }
   })
 
   return scene === 'map' && !selectedDestination ? (
     <OrbitControls
+      ref={controlsRef}
       enablePan={false}
+      enableDamping={!reducedMotion}
+      dampingFactor={0.07}
       enableZoom={!reducedMotion}
-      minDistance={7}
-      maxDistance={17}
-      minPolarAngle={Math.PI / 6}
-      maxPolarAngle={Math.PI / 2.4}
+      minDistance={7.5}
+      maxDistance={18}
+      minPolarAngle={Math.PI / 5.5}
+      maxPolarAngle={Math.PI / 2.45}
+      minAzimuthAngle={-Math.PI / 3}
+      maxAzimuthAngle={Math.PI / 3}
       target={MAP_OVERVIEW_CAMERA.target}
     />
   ) : null
@@ -107,7 +160,7 @@ export function RealmWorldCanvas() {
             gl={{ antialias: tier !== 'mobile', powerPreference: 'high-performance' }}
           >
             <color attach="background" args={['#171411']} />
-            <fog attach="fog" args={['#171411', 14, 34]} />
+            <fog attach="fog" args={['#171411', 15, 36]} />
             <CameraRig />
             {scene === 'intro' ? <ThroneIntroScene /> : <KingdomMapScene />}
           </Canvas>
