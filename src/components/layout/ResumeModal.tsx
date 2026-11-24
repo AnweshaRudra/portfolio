@@ -1,4 +1,4 @@
-import { Download, ExternalLink, FileText, Printer, X } from 'lucide-react'
+import { Download, ExternalLink, FileText, X } from 'lucide-react'
 import { useRealm } from '../../context/realmContextCore'
 import { ACHIEVEMENTS } from '../../data/achievements'
 import { PROFILE_DATA } from '../../data/profile'
@@ -34,26 +34,15 @@ export function ResumeModal() {
           </div>
 
           <div className="flex items-center gap-2">
-            {PROFILE_DATA.resumeUrl ? (
+            {PROFILE_DATA.resumeUrl && (
               <a
                 href={PROFILE_DATA.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                download
+                download="Anwesha_Rudra_Resume.pdf"
                 className="inline-flex items-center gap-1.5 rounded border border-[#CFA861] bg-[#392C20] px-3 py-1.5 text-xs font-medium text-[#E5D5B9] hover:bg-[#4b3a2b]"
               >
                 <Download className="h-3.5 w-3.5 text-[#CFA861]" />
                 <span>Download PDF</span>
               </a>
-            ) : (
-              <button
-                type="button"
-                onClick={() => window.print()}
-                className="inline-flex items-center gap-1.5 rounded border border-[#B18A45]/50 bg-[#211C17] px-3 py-1.5 text-xs font-medium text-[#E5D5B9] hover:border-[#CFA861] cursor-pointer"
-              >
-                <Printer className="h-3.5 w-3.5 text-[#CFA861]" />
-                <span>Print Summary</span>
-              </button>
             )}
 
             <button
@@ -68,30 +57,39 @@ export function ResumeModal() {
         </div>
 
         <div className="realm-scroll overflow-y-auto p-5 sm:p-6">
-          {!PROFILE_DATA.resumeUrl && (
-            <div className="mb-4 rounded border border-dashed border-[#B18A45]/60 bg-[#392C20]/45 px-4 py-2.5 text-xs text-[#E5D5B9]">
-              <strong>PDF Pending:</strong> {PROFILE_DATA.resumePlaceholder}. Below is the complete
-              verified resume summary from your submitted profile.
-            </div>
-          )}
-
           <div className="surface-parchment space-y-5 rounded-md p-5 sm:p-6 text-sm text-[#241B14]">
             <div className="border-b border-[#524234]/25 pb-3">
               <h3 className="font-display text-xl font-bold">{PROFILE_DATA.ownerName}</h3>
-              <p className="text-xs text-[#524234]">
-                {PROFILE_DATA.location} •{' '}
-                {PROFILE_DATA.githubUrl && (
-                  <a
-                    href={PROFILE_DATA.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-medium text-[#741F20] underline"
-                  >
-                    <span>GitHub</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}{' '}
-                • {PROFILE_DATA.emailPlaceholder}
+              <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[#524234]">
+                <span>{PROFILE_DATA.location}</span>
+                <span>•</span>
+                <a href={PROFILE_DATA.phoneHref} className="underline hover:text-[#741F20]">
+                  {PROFILE_DATA.phonePlaceholder}
+                </a>
+                <span>•</span>
+                <a href={PROFILE_DATA.emailHref} className="underline hover:text-[#741F20]">
+                  {PROFILE_DATA.emailPlaceholder}
+                </a>
+                <span>•</span>
+                <a
+                  href={PROFILE_DATA.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-medium text-[#741F20] underline"
+                >
+                  <span>GitHub</span>
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+                <span>•</span>
+                <a
+                  href={PROFILE_DATA.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-medium text-[#741F20] underline"
+                >
+                  <span>LinkedIn</span>
+                  <ExternalLink className="h-3 w-3" />
+                </a>
               </p>
               <p className="mt-2 font-editorial italic text-base">“{PROFILE_DATA.quote}”</p>
             </div>

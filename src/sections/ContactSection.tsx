@@ -1,4 +1,16 @@
-import { Briefcase, Code2, ExternalLink, Feather, FileText, Mail, Send } from 'lucide-react'
+import {
+  Briefcase,
+  Check,
+  Code2,
+  Copy,
+  Download,
+  ExternalLink,
+  Feather,
+  FileText,
+  Mail,
+  Phone,
+  Send,
+} from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { NightsWatchWhisper } from '../components/easter-eggs/NightsWatchWhisper'
 import { ManuscriptCard } from '../components/ui/ManuscriptCard'
@@ -8,7 +20,18 @@ export function ContactSection() {
   const [senderName, setSenderName] = useState('')
   const [senderEmail, setSenderEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [copiedEmail, setCopiedEmail] = useState(false)
   const [submittedNotice, setSubmittedNotice] = useState<string | null>(null)
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(PROFILE_DATA.emailPlaceholder)
+      setCopiedEmail(true)
+      window.setTimeout(() => setCopiedEmail(false), 2000)
+    } catch {
+      setSubmittedNotice(`Copy manually: ${PROFILE_DATA.emailPlaceholder}`)
+    }
+  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -16,8 +39,14 @@ export function ContactSection() {
       setSubmittedNotice('Please fill in your name, email, and message before dispatching.')
       return
     }
+
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${senderName.trim()}`)
+    const body = encodeURIComponent(
+      `From: ${senderName.trim()} (${senderEmail.trim()})\n\n${message.trim()}`,
+    )
+    window.location.href = `mailto:${PROFILE_DATA.emailPlaceholder}?subject=${subject}&body=${body}`
     setSubmittedNotice(
-      'Raven draft prepared locally. Live email delivery will be connected once the owner provides a preferred email address or form endpoint.',
+      `Opening your email client to send directly to ${PROFILE_DATA.emailPlaceholder}.`,
     )
   }
 
@@ -29,42 +58,45 @@ export function ContactSection() {
         badge={<Feather className="h-4 w-4 text-[#741F20]" />}
       >
         <p className="text-xs leading-relaxed text-[#524234]">
-          Verified external links are clickable below. Email, LinkedIn, and downloadable Resume PDF
-          remain clearly labelled placeholders until provided.
+          Reach out for technical internships in Software Development, AI/ML, or Data Analytics, or
+          download the latest resume PDF directly.
         </p>
 
         <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-          <div className="flex items-start gap-2.5 rounded border border-[#524234]/30 bg-[#171411]/6 p-3">
-            <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#741F20]" />
-            <div className="text-xs">
-              <p className="font-semibold text-[#241B14]">Email</p>
-              {PROFILE_DATA.emailHref ? (
-                <a href={PROFILE_DATA.emailHref} className="underline">
-                  {PROFILE_DATA.emailHref}
+          <div className="flex items-start justify-between gap-2 rounded border border-[#524234]/30 bg-[#171411]/6 p-3">
+            <div className="flex items-start gap-2.5 text-xs min-w-0">
+              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-[#741F20]" />
+              <div className="min-w-0">
+                <p className="font-semibold text-[#241B14]">Email</p>
+                <a
+                  href={PROFILE_DATA.emailHref}
+                  className="block truncate font-medium text-[#241B14] underline hover:text-[#741F20]"
+                >
+                  {PROFILE_DATA.emailPlaceholder}
                 </a>
-              ) : (
-                <p className="text-[#741F20]">{PROFILE_DATA.emailPlaceholder}</p>
-              )}
+              </div>
             </div>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              aria-label="Copy email address"
+              title="Copy email"
+              className="shrink-0 rounded border border-[#524234]/30 p-1 text-[#524234] hover:border-[#741F20] hover:text-[#741F20] cursor-pointer"
+            >
+              {copiedEmail ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            </button>
           </div>
 
           <div className="flex items-start gap-2.5 rounded border border-[#524234]/30 bg-[#171411]/6 p-3">
-            <FileText className="mt-0.5 h-4 w-4 shrink-0 text-[#741F20]" />
+            <Phone className="mt-0.5 h-4 w-4 shrink-0 text-[#741F20]" />
             <div className="text-xs">
-              <p className="font-semibold text-[#241B14]">Resume PDF</p>
-              {PROFILE_DATA.resumeUrl ? (
-                <a
-                  href={PROFILE_DATA.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-medium text-[#241B14] underline"
-                >
-                  <span>Download Resume PDF</span>
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              ) : (
-                <p className="text-[#741F20]">{PROFILE_DATA.resumePlaceholder}</p>
-              )}
+              <p className="font-semibold text-[#241B14]">Phone</p>
+              <a
+                href={PROFILE_DATA.phoneHref}
+                className="font-medium text-[#241B14] underline hover:text-[#741F20]"
+              >
+                {PROFILE_DATA.phonePlaceholder}
+              </a>
             </div>
           </div>
 
@@ -72,41 +104,48 @@ export function ContactSection() {
             <Code2 className="mt-0.5 h-4 w-4 shrink-0 text-[#741F20]" />
             <div className="text-xs">
               <p className="font-semibold text-[#241B14]">GitHub</p>
-              {PROFILE_DATA.githubUrl ? (
-                <a
-                  href={PROFILE_DATA.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-medium text-[#241B14] underline hover:text-[#741F20]"
-                >
-                  <span>github.com/AnweshaRudra</span>
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              ) : (
-                <p className="text-[#741F20]">{PROFILE_DATA.githubPlaceholder}</p>
-              )}
+              <a
+                href={PROFILE_DATA.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-medium text-[#241B14] underline hover:text-[#741F20]"
+              >
+                <span>{PROFILE_DATA.githubPlaceholder}</span>
+                <ExternalLink className="h-3 w-3" />
+              </a>
             </div>
           </div>
 
           <div className="flex items-start gap-2.5 rounded border border-[#524234]/30 bg-[#171411]/6 p-3">
             <Briefcase className="mt-0.5 h-4 w-4 shrink-0 text-[#741F20]" />
-            <div className="text-xs">
+            <div className="text-xs min-w-0">
               <p className="font-semibold text-[#241B14]">LinkedIn</p>
-              {PROFILE_DATA.linkedinUrl ? (
-                <a
-                  href={PROFILE_DATA.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-medium text-[#241B14] underline"
-                >
-                  <span>Open LinkedIn Profile</span>
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              ) : (
-                <p className="text-[#741F20]">{PROFILE_DATA.linkedinPlaceholder}</p>
-              )}
+              <a
+                href={PROFILE_DATA.linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-medium text-[#241B14] underline hover:text-[#741F20]"
+              >
+                <span className="truncate">{PROFILE_DATA.linkedinPlaceholder}</span>
+                <ExternalLink className="h-3 w-3 shrink-0" />
+              </a>
             </div>
           </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#524234]/20 pt-3">
+          <div className="flex items-center gap-2 text-xs text-[#524234]">
+            <FileText className="h-4 w-4 text-[#741F20]" />
+            <span>Download full resume ({PROFILE_DATA.resumePlaceholder})</span>
+          </div>
+          <a
+            href={PROFILE_DATA.resumeUrl}
+            download="Anwesha_Rudra_Resume.pdf"
+            className="inline-flex items-center gap-1.5 rounded border border-[#241B14] bg-[#241B14] px-3 py-1.5 text-xs font-medium text-[#E5D5B9] hover:bg-[#392C20]"
+          >
+            <Download className="h-3.5 w-3.5 text-[#CFA861]" />
+            <span>Download Resume PDF</span>
+          </a>
         </div>
       </ManuscriptCard>
 
@@ -119,7 +158,8 @@ export function ContactSection() {
             Send a Raven
           </h3>
           <p className="mt-1 text-xs text-[#8C8274]">
-            For internship opportunities, engineering collaborations, or project inquiries.
+            Compose a dispatch to open directly in your mail client addressed to{' '}
+            {PROFILE_DATA.emailPlaceholder}.
           </p>
         </div>
 

@@ -9,12 +9,16 @@ export const PROFILE_DATA: ProfileData = {
   targetRoles: 'Seeking technical internships in software development, AI/ML, and data analytics.',
   summary:
     'Computer Science and Engineering undergraduate with project experience in machine learning, data processing, business entity resolution, cybersecurity, and mobile application development. Experienced in building Python-based data workflows, integrating intelligent models with applications, and developing end-to-end solutions through collaborative hackathon projects.',
-  emailPlaceholder: 'Placeholder: Provide preferred contact email address',
-  phonePlaceholder: 'Placeholder: Optional mobile number if you wish to publish it',
-  githubPlaceholder: 'Verified GitHub Profile',
+  emailPlaceholder: 'anwesharudra2005@gmail.com',
+  emailHref: 'mailto:anwesharudra2005@gmail.com',
+  phonePlaceholder: '+91 6289097311',
+  phoneHref: 'tel:+916289097311',
+  githubPlaceholder: 'github.com/AnweshaRudra',
   githubUrl: 'https://github.com/AnweshaRudra',
-  linkedinPlaceholder: 'Placeholder: Provide LinkedIn profile URL',
-  resumePlaceholder: 'Placeholder: Provide final Resume PDF file for download',
+  linkedinPlaceholder: 'linkedin.com/in/anwesha-rudra-00720a321',
+  linkedinUrl: 'https://www.linkedin.com/in/anwesha-rudra-00720a321/',
+  resumePlaceholder: 'Anwesha_Rudra_Resume.pdf',
+  resumeUrl: '/Anwesha_Rudra_Resume.pdf',
   education: [
     {
       id: 'icfai-btech',

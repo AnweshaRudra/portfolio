@@ -1,4 +1,4 @@
-import { Code2, Compass, FileText, Map, Menu, RotateCcw, ScrollText, X } from 'lucide-react'
+import { Briefcase, Code2, Compass, FileText, Map, Menu, RotateCcw, ScrollText, X } from 'lucide-react'
 import { useRealm } from '../../context/realmContextCore'
 import { PROFILE_DATA } from '../../data/profile'
 import { AudioToggle } from '../ui/AudioToggle'
@@ -15,14 +15,6 @@ export function RealmHeader() {
     setNavDrawerOpen,
     setResumeOpen,
   } = useRealm()
-
-  const handleResumeClick = () => {
-    if (PROFILE_DATA.resumeUrl) {
-      window.open(PROFILE_DATA.resumeUrl, '_blank', 'noopener,noreferrer')
-      return
-    }
-    setResumeOpen(true)
-  }
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-30 flex items-center justify-between gap-2 px-3 py-3 sm:px-6 sm:py-4">
@@ -74,10 +66,24 @@ export function RealmHeader() {
           </a>
         )}
 
+        {PROFILE_DATA.linkedinUrl && (
+          <a
+            href={PROFILE_DATA.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Anwesha Rudra on LinkedIn"
+            title="LinkedIn Profile"
+            className="inline-flex items-center gap-1.5 rounded border border-[#B18A45]/45 bg-[#171411]/85 px-2.5 py-1.5 text-xs font-medium text-[#E5D5B9] transition-colors hover:border-[#CFA861] hover:text-[#CFA861]"
+          >
+            <Briefcase className="h-3.5 w-3.5 text-[#B18A45]" />
+            <span className="hidden lg:inline">LinkedIn</span>
+          </a>
+        )}
+
         <button
           type="button"
-          onClick={handleResumeClick}
-          title={PROFILE_DATA.resumeUrl ? 'Open Resume PDF' : 'View Resume Summary'}
+          onClick={() => setResumeOpen(true)}
+          title="View & Download Resume PDF"
           className="inline-flex items-center gap-1.5 rounded border border-[#B18A45]/60 bg-[#392C20]/90 px-2.5 py-1.5 text-xs font-medium text-[#E5D5B9] transition-colors hover:border-[#CFA861] hover:bg-[#493828] cursor-pointer"
         >
           <FileText className="h-3.5 w-3.5 text-[#CFA861]" />

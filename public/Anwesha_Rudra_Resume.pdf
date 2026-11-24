@@ -1,0 +1,145 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R /F3 6 0 R >> >> /Contents 7 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>
+endobj
+7 0 obj
+<< /Length 5996 >>
+stream
+0.08 0.08 0.08 rg
+BT /F2 18 Tf 1 0 0 1 44 804 Tm (ANWESHA RUDRA) Tj ET
+0.25 0.25 0.25 rg
+BT /F1 9 Tf 1 0 0 1 44 789 Tm (Dehradun, Uttarakhand, India  |  +91 6289097311  |  anwesharudra2005@gmail.com) Tj ET
+0.25 0.25 0.25 rg
+BT /F1 8.6 Tf 1 0 0 1 44 777 Tm (GitHub: https://github.com/AnweshaRudra  |  LinkedIn: https://www.linkedin.com/in/anwesha-rudra-00720a321/) Tj ET
+0.28 0.28 0.28 rg
+BT /F3 9 Tf 1 0 0 1 44 764 Tm ("Part problem-solver, part builder, full-time learner - always compiling something new.") Tj ET
+0.1 0.1 0.1 rg
+BT /F2 10.5 Tf 1 0 0 1 44 754 Tm (PROFESSIONAL SUMMARY) Tj ET
+0.68 0.54 0.27 RG 0.8 w
+44 750 m 551 750 l S
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 44 738 Tm (Computer Science and Engineering undergraduate with project experience in machine learning, data) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 44 726.5 Tm (processing, business entity resolution, cybersecurity, and mobile application development. Experienced) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 44 715 Tm (in building Python-based data workflows, integrating intelligent models with applications, and) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 44 703.5 Tm (developing end-to-end solutions through collaborative hackathon projects. Seeking technical) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 44 692 Tm (internships in software development, AI/ML, and data analytics.) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 10.5 Tf 1 0 0 1 44 670.5 Tm (TECHNICAL SKILLS) Tj ET
+0.68 0.54 0.27 RG 0.8 w
+44 666.5 m 551 666.5 l S
+0.12 0.12 0.12 rg
+BT /F2 9.2 Tf 1 0 0 1 44 654.5 Tm (Programming:) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 166 654.5 Tm (Python, Java, JavaScript, SQL) Tj ET
+0.12 0.12 0.12 rg
+BT /F2 9.2 Tf 1 0 0 1 44 642.5 Tm (Data & Machine Learning:) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 166 642.5 Tm (pandas, NumPy, scikit-learn, data cleaning, feature engineering, anomaly detection) Tj ET
+0.12 0.12 0.12 rg
+BT /F2 9.2 Tf 1 0 0 1 44 630.5 Tm (Backend & Mobile:) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 166 630.5 Tm (FastAPI, React Native, Android development, model/API integration) Tj ET
+0.12 0.12 0.12 rg
+BT /F2 9.2 Tf 1 0 0 1 44 618.5 Tm (Tools:) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9.2 Tf 1 0 0 1 166 618.5 Tm (Git, GitHub) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 10.5 Tf 1 0 0 1 44 596.5 Tm (PROJECTS) Tj ET
+0.68 0.54 0.27 RG 0.8 w
+44 592.5 m 551 592.5 l S
+0.1 0.1 0.1 rg
+BT /F2 9.6 Tf 1 0 0 1 44 580.5 Tm (AI Fake Stock Detector | Financial Anomaly Detection) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 568.5 Tm (* Processed stock-market data and engineered features to examine price movements and trading-volume) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 557.5 Tm (  behaviour.) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 546.5 Tm (* Calculated Z-scores and implemented Isolation Forest to flag potentially unusual price or volume) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 535.5 Tm (  patterns.) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 524.5 Tm (* Combined statistical and ML-based anomaly detection to identify potentially suspicious market) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 513.5 Tm (  activity and support financial-risk awareness for retail investors.) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 9.6 Tf 1 0 0 1 44 499.5 Tm (Business Entity Resolution | Multi-Source Business Matching) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 487.5 Tm (* Loaded large business datasets, organized training/validation/ground-truth workflows, and) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 476.5 Tm (  normalized business names, addresses, and country fields.) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 465.5 Tm (* Retrieved candidate matches via character-level TF-IDF and cosine-similarity nearest-neighbour) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 454.5 Tm (  search; trained an XGBoost matching pipeline to generate structured outputs.) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 9.6 Tf 1 0 0 1 44 440.5 Tm (SolarQuest | Intelligent Solar Recommendation App) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 428.5 Tm (* Developed an Android application using roof area and geographical location inputs connected to a) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 417.5 Tm (  solar recommendation workflow and intelligent suitability model.) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 9.6 Tf 1 0 0 1 44 403.5 Tm (SANGYAN Shield | Cybersecurity Detection App) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 391.5 Tm (* Developed a cross-platform mobile workflow integrated with a Python FastAPI backend for) Tj ET
+0.16 0.16 0.16 rg
+BT /F1 8.9 Tf 1 0 0 1 50 380.5 Tm (  screenshot-upload analysis and end-to-end request/response testing.) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 10.5 Tf 1 0 0 1 44 356.5 Tm (EDUCATION) Tj ET
+0.68 0.54 0.27 RG 0.8 w
+44 352.5 m 551 352.5 l S
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 44 340.5 Tm (The ICFAI University, Dehradun | B.Tech, Computer Science Engineering \(Aug 2024 - May 2028\)) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 44 328.5 Tm (West Bengal Board of Higher Secondary Education \(WBBHSE\) | Higher Secondary, PCMB \(Aug 2022 - Jul 2024\)) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 44 316.5 Tm (West Bengal Board of Secondary Education \(WBBSE\) | Secondary Education \(Aug 2021 - Jul 2022\)) Tj ET
+0.1 0.1 0.1 rg
+BT /F2 10.5 Tf 1 0 0 1 44 294.5 Tm (ACHIEVEMENTS & CERTIFICATION) Tj ET
+0.68 0.54 0.27 RG 0.8 w
+44 290.5 m 551 290.5 l S
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 48 278.5 Tm (* Second Place - ByteVerse 1.0 Hackathon, AI Fake Stock Detector) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 48 267 Tm (* Second Place - GNA University Hackathon 4.0, Clean and Green Technologies, SolarQuest) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 48 255.5 Tm (* Top 100 - SANGYAN Hackathon, IIT \(BHU\)) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 48 244 Tm (* Participant - AWS Machine Learning Hackathon) Tj ET
+0.14 0.14 0.14 rg
+BT /F1 9 Tf 1 0 0 1 48 232.5 Tm (* Java Beginner to Master - Udemy \(Instructor: Abdul Bari\)) Tj ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000261 00000 n 
+0000000331 00000 n 
+0000000406 00000 n 
+0000000484 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+6532
+%%EOF

@@ -93,6 +93,7 @@ export interface ProfileData {
   emailPlaceholder: string
   emailHref?: string
   phonePlaceholder: string
+  phoneHref?: string
   githubPlaceholder: string
   githubUrl?: string
   linkedinPlaceholder: string

@@ -157,14 +157,37 @@ export function DestinationNavBar() {
 
             <div className="mt-6 space-y-3 border-t border-[#B18A45]/30 pt-4 text-xs text-[#E5D5B9]/85">
               <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => selectDestination('ravens-keep')}
-                  className="inline-flex items-center gap-1 rounded border border-[#B18A45]/40 px-2.5 py-1.5 hover:border-[#CFA861] cursor-pointer"
-                >
-                  <ExternalLink className="h-3 w-3 text-[#B18A45]" />
-                  <span>GitHub / LinkedIn / Contact</span>
-                </button>
+                {PROFILE_DATA.githubUrl && (
+                  <a
+                    href={PROFILE_DATA.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded border border-[#B18A45]/40 px-2.5 py-1.5 hover:border-[#CFA861]"
+                  >
+                    <ExternalLink className="h-3 w-3 text-[#B18A45]" />
+                    <span>GitHub</span>
+                  </a>
+                )}
+                {PROFILE_DATA.linkedinUrl && (
+                  <a
+                    href={PROFILE_DATA.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 rounded border border-[#B18A45]/40 px-2.5 py-1.5 hover:border-[#CFA861]"
+                  >
+                    <ExternalLink className="h-3 w-3 text-[#B18A45]" />
+                    <span>LinkedIn</span>
+                  </a>
+                )}
+                {PROFILE_DATA.resumeUrl && (
+                  <a
+                    href={PROFILE_DATA.resumeUrl}
+                    download="Anwesha_Rudra_Resume.pdf"
+                    className="inline-flex items-center gap-1 rounded border border-[#B18A45]/40 px-2.5 py-1.5 hover:border-[#CFA861]"
+                  >
+                    <span>Resume PDF</span>
+                  </a>
+                )}
                 <button
                   type="button"
                   onClick={replayIntro}
